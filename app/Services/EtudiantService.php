@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Services;
+
+use Illuminate\Http\Request;
+
+/**
+ *Intefaces des étudiants
+ **/
+interface EtudiantService
+{
+
+    public function datatable();
+
+    public function update(Request $request, $id);
+
+    public function create(Request $request);
+
+    public function find($id);
+
+    public function delete($id);
+
+    public function countEtudiant();
+
+}
