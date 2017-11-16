@@ -21,5 +21,7 @@ interface EtudiantService
     public function delete($id);
 
     public function countEtudiant();
+    
+    public function infoEtudiant($id);
 
 }

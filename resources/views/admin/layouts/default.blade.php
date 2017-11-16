@@ -39,11 +39,6 @@
                 <!-- Page-Title -->
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="btn-group pull-right m-t-15">
-                            <button type="button" class="btn btn-default dropdown-toggle waves-effect waves-light"
-                                    data-toggle="dropdown" aria-expanded="false">Settings <span class="m-l-5"><i
-                                            class="fa fa-cog"></i></span></button>
-                        </div>
 
                         @yield('title_content')
 

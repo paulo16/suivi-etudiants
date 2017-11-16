@@ -26,6 +26,9 @@ return [
     'etudiant_promotion' => 'Promotion',
     'etudiant_date_naissance' => 'Date Naissance',
     'etudiant_genre' => 'Genre',
+    'evolution_ville' => 'Ville',
+    'evolution_filiere' => 'Filiere',
+    'evolution_etablissement' => 'Etablissement',
 
     ////////////// les options /////////////
 

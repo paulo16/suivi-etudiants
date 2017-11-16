@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Etudiant;
 use App\Services\EtudiantService;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Yajra\DataTables\DataTables;
 
 class EtudiantController extends Controller
 {
 
-    function __construct(EtudiantService $etudiantservice)
+    public function __construct(EtudiantService $etudiantservice)
     {
         $this->middleware('web');
         $this->middleware('auth');
@@ -66,7 +66,9 @@ class EtudiantController extends Controller
      */
     public function show($id)
     {
-        return $this->etudiantservice->find($id);
+        $etudiant = $this->etudiantservice->infoEtudiant($id);
+        //dd($etudiant);
+        return view('admin.etudiant.profil', ['etudiant' =>$etudiant]);
     }
 
     /**

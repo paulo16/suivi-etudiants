@@ -35,5 +35,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind('App\Services\FiliereService', 'App\Services\Impl\FiliereServiceImpl');
         $this->app->bind('App\Services\EtablissementService', 'App\Services\Impl\EtablissementServiceImpl');
         $this->app->bind('App\Services\AccueilService', 'App\Services\Impl\AccueilServiceImpl');
+        $this->app->bind('App\Services\EvolutionService', 'App\Services\Impl\EvolutionServiceImpl');
     }
 }
