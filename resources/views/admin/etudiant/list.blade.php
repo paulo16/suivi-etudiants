@@ -171,7 +171,7 @@
                 });
             });
 
-            ////////////////// save update Etudiant /////////////////////////////////////
+²            ////////////////// save update Etudiant /////////////////////////////////////
             $("#sousmettre").click(function (e) {
                 $.ajaxSetup({
                     headers: {
