@@ -68,4 +68,20 @@ class EtudiantServiceImpl implements EtudiantService
     {
         return Etudiant::count();
     }
+
+     public function infoEtudiant($id)
+    {
+        return Etudiant::leftjoin('evolutions', 'evolutions.etudiant_id', '=', 'etudiants.id')
+            ->join('villes', 'evolutions.ville_id', '=', 'villes.id')
+            ->join('filieres', 'evolutions.filiere_id', '=', 'filieres.id')
+            ->join('etablissements', 'evolutions.etablissement_id', '=', 'etablissements.id')
+            ->select('etudiants.id as id', 'etudiants.nom as nom', 'etudiants.prenom as prenom',
+                'etudiants.date_naissance as naissance', 'etudiants.genre as genre', 'evolutions.annee as annee', 'villes.nom as ville', 'filieres.nom as filiere', 'etablissements.nom as ecole',
+                'evolutions.situation as situation ')
+            ->where('evolutions.annee', '=', 'etudiants.promotion')
+            ->where('evolutions.etudiant_id', '=', $id)
+            ->first();
+    }
+
+
 }

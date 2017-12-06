@@ -2,11 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Services\EvolutionService;
+use Illuminate\Http\Request;
 
 class EvolutionController extends Controller
 {
+
+    public function __construct(EvolutionService $evolutionservice)
+    {
+        $this->middleware('web');
+        $this->middleware('auth');
+
+        $this->evolutionservice = $evolutionservice;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +24,17 @@ class EvolutionController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.evolution.list');
+    }
+
+    /**
+     * Process datatables ajax request.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function data()
+    {
+        return $this->evolutionservice->datatable();
     }
 
     /**

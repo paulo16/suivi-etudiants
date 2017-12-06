@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateEvolutionsTable extends Migration
 {
@@ -16,7 +16,7 @@ class CreateEvolutionsTable extends Migration
         Schema::create('evolutions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('situation')->nullable();
-            $table->unsignedInteger('annee')->nullable();
+            $table->string('annee')->nullable();
             $table->string('niveau')->nullable();
             $table->text('description')->nullable();
             $table->unsignedInteger('etablissement_id')->nullable();
