@@ -72,56 +72,56 @@ class GestionFicherController extends Controller
                             $etudiant->save();
                             //dd('apres-'.$etudiant);
                         }
-                    }
 
-                    //Filière
-                    if (!empty($row['filiere'])) {
-                        $filiere = Filiere::where('nom', mb_strtoupper($row['filiere'], 'UTF-8'))->first();
-                        if (empty($filiere)) {
-                            $filiere      = new Filiere();
-                            $filiere->nom = mb_strtoupper($row['filiere'], 'UTF-8');
-                            $filiere->save();
-                        }
-                    }
-
-                    //Etablissement
-                    if (!empty($row['etablissement'])) {
-                        $etablissement = Etablissement::where('nom', mb_strtoupper($row['etablissement'], 'UTF-8'))->first();
-                        if (empty($etablissement)) {
-                            $etablissement      = new Etablissement();
-                            $etablissement->nom = mb_strtoupper($row['etablissement'], 'UTF-8');
-                            $etablissement->save();
-                        }
-                    }
-
-                    // Evolution
-
-                    if (!empty($etudiant)) {
-
-                        $evolution = DB::table('evolutions')
-                            ->where('etudiants.id', '=', $etudiant->id)
-                            ->Join('etudiants', 'evolutions.etudiant_id', '=', 'etudiants.id')
-                            ->first();
-
-                        if (empty($evolution)) {
-
-                            if (!empty($row['ville'])) {
-                                $ville = Ville::where('nom', mb_strtoupper($row['ville'], 'UTF-8'))->first();
+                        //Filière
+                        if (!empty($row['filiere'])) {
+                            $filiere = Filiere::where('nom', mb_strtoupper($row['filiere'], 'UTF-8'))->first();
+                            if (empty($filiere)) {
+                                $filiere      = new Filiere();
+                                $filiere->nom = mb_strtoupper($row['filiere'], 'UTF-8');
+                                $filiere->save();
                             }
-                            DB::table('evolutions')->insert([
-                                [
-                                    'situation'        => isset($row['status']) ? $row['status'] : '',
-                                    'niveau'           => isset($row['niveau']) ? $row['niveau'] : '',
-                                    'annee'            => isset($row['promotion']) ? $row['promotion'] : '',
-                                    'etudiant_id'      => $etudiant->id,
-                                    'ville_id'         => isset($ville) ? $ville->id : null,
-                                    'filiere_id'       => isset($filiere) ? $filiere->id : null,
-                                    'etablissement_id' => isset($etablissement) ? $etablissement->id : null,
-                                ],
-                            ]);
-
                         }
 
+                        //Etablissement
+                        if (!empty($row['etablissement'])) {
+                            $etablissement = Etablissement::where('nom', mb_strtoupper($row['etablissement'], 'UTF-8'))->first();
+                            if (empty($etablissement)) {
+                                $etablissement      = new Etablissement();
+                                $etablissement->nom = mb_strtoupper($row['etablissement'], 'UTF-8');
+                                $etablissement->save();
+                            }
+                        }
+
+                        // Evolution
+
+                        if (!empty($etudiant)) {
+
+                            $evolution = DB::table('evolutions')
+                                ->where('etudiants.id', '=', $etudiant->id)
+                                ->Join('etudiants', 'evolutions.etudiant_id', '=', 'etudiants.id')
+                                ->first();
+
+                            if (empty($evolution)) {
+
+                                if (!empty($row['ville'])) {
+                                    $ville = Ville::where('nom', mb_strtoupper($row['ville'], 'UTF-8'))->first();
+                                }
+                                DB::table('evolutions')->insert([
+                                    [
+                                        'situation'        => isset($row['status']) ? $row['status'] : '',
+                                        'niveau'           => isset($row['niveau']) ? $row['niveau'] : '',
+                                        'annee'            => isset($row['promotion']) ? $row['promotion'] : '',
+                                        'etudiant_id'      => $etudiant->id,
+                                        'ville_id'         => isset($ville) ? $ville->id : null,
+                                        'filiere_id'       => isset($filiere) ? $filiere->id : null,
+                                        'etablissement_id' => isset($etablissement) ? $etablissement->id : null,
+                                    ],
+                                ]);
+
+                            }
+
+                        }
                     }
                 }
             });

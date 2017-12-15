@@ -99,6 +99,8 @@
                     serverSide: true,
                     ajax: '{!! route('etudiants.data') !!}',
                     data: {_token: '{{ csrf_token() }}'},
+                     "scrollX": true,
+                     "scrollY": "300px",
                     columns: [
                         {data: 'nom', name: 'nom'},
                         {data: 'prenom', name: 'prenom'},

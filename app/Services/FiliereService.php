@@ -21,4 +21,6 @@ interface FiliereService
 
     public function countFiliere();
 
+    public function listefilieres();
+
 }

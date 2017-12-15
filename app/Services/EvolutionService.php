@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 interface EvolutionService
 {
 
-    public function datatable();
+	public function datatable();
+	public function evolutions($id);
+	public function update(Request $request, $id);
+	public function store(Request $request);
 
 }

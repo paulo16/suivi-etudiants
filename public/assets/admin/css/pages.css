@@ -1543,6 +1543,12 @@ File: Pages
 /* =============
    Profile
 ============= */
+.profile-info-name img {
+  width: 200px;
+  float: left;
+  margin-right: 30px;
+}
+
 .profile-detail {
   text-align: center;
   padding: 30px 20px;

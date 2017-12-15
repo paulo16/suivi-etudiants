@@ -14,9 +14,8 @@ class FiliereServiceImpl implements FiliereService
     public function allFiliereDatatable()
     {
 
-
         $filieres = Filiere::select([
-            'id', 'nom', 'prenom', 'date_naissance', 'genre', 'promotion'
+            'id', 'nom', 'prenom', 'date_naissance', 'genre', 'promotion',
         ]);
 
         return Datatables::of($filieres)
@@ -64,5 +63,13 @@ class FiliereServiceImpl implements FiliereService
     public function countFiliere()
     {
         return Filiere::count();
+    }
+
+    public function listefilieres()
+    {
+        return $filieres = Filiere::select()
+            ->orderBy('nom', 'asc')
+            ->get()
+            ->toArray();
     }
 }

@@ -14,9 +14,8 @@ class EtablissementServiceImpl implements EtablissementService
     public function allEtablissementDatatable()
     {
 
-
         $etablissements = Etablissement::select([
-            'id', 'nom', 'prenom', 'date_naissance', 'genre', 'promotion'
+            'id', 'nom', 'prenom', 'date_naissance', 'genre', 'promotion',
         ]);
 
         return Datatables::of($etablissements)
@@ -64,5 +63,13 @@ class EtablissementServiceImpl implements EtablissementService
     public function countEtablissement()
     {
         return Etablissement::count();
+    }
+
+    public function listetablissement()
+    {
+        return $etablissements = Etablissement::select()
+            ->orderBy('nom', 'asc')
+            ->get()
+            ->toArray();
     }
 }

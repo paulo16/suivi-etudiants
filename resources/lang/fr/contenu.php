@@ -13,7 +13,7 @@ return [
     'problem_server' => 'coté serveur ,veillez réessayer !',
     'ajout_titre' => 'Ajout',
     'ajout_message' => 'Ajout bien éffectué !',
-    'update_titre' => 'Editer',
+    'update_titre' => 'Modification',
     'update_message' => 'Mise à jour bien éffectué !',
 
 

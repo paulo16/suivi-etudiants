@@ -44,7 +44,7 @@ class EvolutionController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -55,7 +55,7 @@ class EvolutionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->evolutionservice->store($request);
     }
 
     /**
@@ -89,7 +89,7 @@ class EvolutionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return $this->evolutionservice->update($request,$id);
     }
 
     /**

@@ -87,11 +87,10 @@
 <script src="{{asset('assets/admin/js/sweetalert.min.js') }}"></script>
 <script src="{{asset('assets/admin/js/chart.min.js') }}"></script>
 
+@yield('js')
 
 <script src="{{asset('assets/admin/js/jquery.core.js')}}"></script>
 <script src="{{asset('assets/admin/js/jquery.app.js')}}"></script>
-
-@yield('js')
 
 </body>
 </html>
