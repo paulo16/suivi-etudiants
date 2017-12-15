@@ -24,4 +24,10 @@ interface EtudiantService
     
     public function infoEtudiant($id);
 
+    public function listetudiants(Request $request);
+
+    public function evolutionEtudiant($id);
+
+    public function listevilles();
+
 }

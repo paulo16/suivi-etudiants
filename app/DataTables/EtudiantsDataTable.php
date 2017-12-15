@@ -2,9 +2,9 @@
 
 namespace App\DataTables;
 
-use App\User;
-use Yajra\DataTables\Services\DataTable;
+use App\Models\Etudiant;
 use Yajra\DataTables\EloquentDataTable;
+use Yajra\DataTables\Services\DataTable;
 
 class EtudiantsDataTable extends DataTable
 {
@@ -18,7 +18,7 @@ class EtudiantsDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'etudiantsdatatable.action');
+        return $dataTable->addColumn('action', 'admin.etudiant.action');
     }
 
     /**
@@ -28,14 +28,17 @@ class EtudiantsDataTable extends DataTable
      */
     public function query()
     {
-                $query = Etudiant::leftjoin('evolutions', 'evolutions.etudiant_id', '=', 'etudiants.id')
-            ->leftjoin('villes', 'evolutions.ville_id', '=', 'villes.id')
-            ->leftjoin('filieres', 'evolutions.filiere_id', '=', 'filieres.id')
-            ->leftjoin('etablissements', 'evolutions.etablissement_id', '=', 'etablissements.id')
-            ->select('evolutions.id as id', 'etudiants.nom', 'etudiants.prenom',
-                'etudiants.date_naissance as naissance', 'etudiants.genre as genre', 'evolutions.annee as annee', 'villes.nom as ville', 'filieres.nom as filiere', 'etablissements.nom as ecole')
-            ->where('evolutions.annee', '=', 'etudiants.promotion')
-            ;
+        $query = Etudiant::leftjoin('evolutions', 'evolutions.etudiant_id', '=', 'etudiants.id')
+            ->join('villes', 'evolutions.ville_id', '=', 'villes.id')
+            ->join('filieres', 'evolutions.filiere_id', '=', 'filieres.id')
+            ->join('etablissements', 'evolutions.etablissement_id', '=', 'etablissements.id')
+            ->select('etudiants.id as id', 'etudiants.nom as nom', 'etudiants.prenom as prenom',
+                'etudiants.date_naissance as naissance', 'etudiants.genre as genre',
+                'etudiants.promotion as promotion', 'villes.nom as ville', 'villes.id as ville_id',
+                'filieres.nom as filiere',
+                'etablissements.nom as ecole', 'evolutions.situation as situation')
+            ->whereColumn('etudiants.promotion', 'evolutions.annee')
+        ;
         return $this->applyScopes($query);
     }
 
@@ -47,9 +50,12 @@ class EtudiantsDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->addAction(['width' => '80px']);
+            ->columns($this->getColumns())
+            ->parameters([
+                'dom'     => 'Bfrtip',
+                'buttons' => ['csv', 'excel', 'pdf'],
+            ]);
+
     }
 
     /**
@@ -59,7 +65,7 @@ class EtudiantsDataTable extends DataTable
      */
     protected function getColumns()
     {
-        return ['id', 'genre', 'annee', 'ville','filiere', 'ecole', 'nom', 'prenom', 'naissance'];
+        return ['id', 'genre', 'promotion', 'ville', 'filiere', 'ecole', 'nom', 'prenom', 'naissance'];
     }
 
     /**

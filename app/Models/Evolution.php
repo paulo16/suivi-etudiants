@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Evolution extends Model
 {
+    protected $guarded = ['id'];
+    
     public function etudiants()
     {
         return $this->hasMany(Etudiant::class);

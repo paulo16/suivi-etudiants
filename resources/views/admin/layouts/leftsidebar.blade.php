@@ -39,7 +39,7 @@
                     </ul>
                 </li>
                 <li class="has_sub">
-                    <a class="waves-effect" href="{{route('etudiants.index')}}">
+                    <a class="waves-effect" href="{{route('etudiants.listall')}}">
                         <i class="icon-people">
                         </i>
                         <span>
@@ -94,10 +94,10 @@
                     </ul>
                 </li>
                 <li class="has_sub">
-                    <a class="waves-effect" href="{{route('evolutions.index')}}">
+                    <a class="waves-effect" href="{{route('stats.index')}}">
                         <i class=" md-trending-up">
                         </i>
-                        EVOLUTION
+                        STATISTIQUES
                     </a>
                 </li>
                 <li class="has_sub">

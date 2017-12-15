@@ -33,21 +33,8 @@
                         </div>
                     </div>
                 </div>
-
-                <table id="etudiants-table" class="table table-striped table-bordered dt-responsive nowrap"
-                       cellspacing="0"
-                       width="100%">
-                    <thead>
-                    <tr>
-                        <th>{{ Lang::get('contenu.etudiant_nom')}}</th>
-                        <th>{{ Lang::get('contenu.etudiant_prenom')}}</th>
-                        <th>{{ Lang::get('contenu.etudiant_date_naissance')}}</th>
-                        <th>{{ Lang::get('contenu.etudiant_genre')}}</th>
-                        <th>{{ Lang::get('contenu.etudiant_promotion')}}</th>
-                        <th>{{ Lang::get('contenu.etudiant_action')}}</th>
-                    </tr>
-                    </thead>
-                </table>
+                    
+                    {!! $dataTable->table() !!}
 
             </div>
         </div><!-- end col -->
@@ -99,8 +86,6 @@
                     serverSide: true,
                     ajax: '{!! route('etudiants.data') !!}',
                     data: {_token: '{{ csrf_token() }}'},
-                     "scrollX": true,
-                     "scrollY": "300px",
                     columns: [
                         {data: 'nom', name: 'nom'},
                         {data: 'prenom', name: 'prenom'},
@@ -173,7 +158,7 @@
                 });
             });
 
-²            ////////////////// save update Etudiant /////////////////////////////////////
+            ////////////////// save update Etudiant /////////////////////////////////////
             $("#sousmettre").click(function (e) {
                 $.ajaxSetup({
                     headers: {
@@ -240,6 +225,6 @@
         });
     </script>
 
-
+     {!! $dataTable->scripts() !!}
 
 @endsection

@@ -21,4 +21,6 @@ interface EtablissementService
 
     public function countEtablissement();
 
+    public function listetablissement();
+
 }

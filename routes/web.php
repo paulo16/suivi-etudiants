@@ -34,13 +34,22 @@ Route::group(['prefix' => 'gestion-utilisateurs', 'middleware' => ['web', 'auth'
 });
 
 //gestion-etudiants
+Route::get('etudiants/aides', 'Admin\EtudiantController@aides')->name('etudiants.aides');
+Route::get('etudiants/evolutions/{id}', 'Admin\EtudiantController@evolutions')->name('etudiants.evolutions');
+Route::get('etudiants/info/{id}', 'Admin\EtudiantController@findinfo')->name('etudiants.findinfo');
+Route::get('etudiants/all', 'Admin\EtudiantController@all')->name('etudiants.all');
+Route::get('etudiants/les-etudiants', 'Admin\EtudiantController@listall')->name('etudiants.listall');
+
 Route::get('etudiants/data', 'Admin\EtudiantController@data')->name('etudiants.data');
 Route::resource('etudiants', 'Admin\EtudiantController');
+
 
 //gestion-evolution
 Route::get('evolutions/data', 'Admin\EvolutionController@data')->name('evolutions.data');
 Route::get('evolutions', 'Admin\EvolutionController@index')->name('evolutions.index');
+Route::resource('evolutions', 'Admin\EvolutionController');
 
 
+Route::get('etudiants/generate-pdf/{id}', 'Admin\PdfGenerateController@pdfview')->name('generate-pdf');
 
-
+Route::get('stats/', 'Admin\StatsController@index')->name('stats.index');
