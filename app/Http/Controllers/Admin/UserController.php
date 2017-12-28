@@ -2,133 +2,108 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\User;
-use App\Services\UserService;
-use App\Http\Requests\UserValidator;
-use Entrust;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Services\UserService;
 
-/**
- * Class UserController
- * @package App\Http\Controllers\Admin
- */
-class UserController extends Controller
-{
+class UserController extends Controller {
 
-    protected $userservice;
+	public function __construct(UserService $userService) {
+		$this->middleware('web');
+		$this->middleware('auth');
 
-    /**
-     * UserController constructor.
-     * @param UserService $userService
-     */
-    public function __construct(UserService $userService)
-    {
-        $this->userservice = $userService;
+		$this->userService = $userService;
+	}
 
-    }
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function index() {
+		return view('admin.users.list');
+	}
 
-    /**
-     * Page list person
-     * @GET("/tous-users", as="ALL-USERS")
-     * @return mixed
-     */
-    public function index()
-    {
-        //verifie que le role du user permet ce privilège
-        if (!Entrust::hasRole(['admin', 'manageur'])) {
-            App::abort(403);
-        }
+	public function data(Request $request) {
+		return $this->userService->listusers();
+	}
 
-        return view('admin.user.list');
-    }
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function create() {
 
+	}
 
-    /**
-     *
-     * @GET("/table-users", as="ALL-USERS-DATATABLE")
-     * @return mixed
-     */
-    public function allUsertDataTable()
-    {
-        return $this->userservice->allUserDataTable();
-    }
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function store(Request $request) {
+		return $this->etudiantservice->create($request);
+	}
 
-    /**
-     * Page add user
-     *
-     * @GET("/ajouter-user", as="AJOUTER-USER-VIEW")
-     * @return mixed
-     */
-    public function create()
-    {
-        return view('admin.user.add');
-    }
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	public function show($id) {
+		$user = $this->etudiantservice->infoUser($id);
+		$evolutions = $this->etudiantservice->evolutionUser($id);
+		//dd($evolutions);
 
-    /**
-     * submit user
-     * @POST("/submit-add-user", as="SUBMIT-ADD-USER")
-     * @return mixed
-     */
-    public function store(UserValidator $request)
-    {
-        if ($this->userservice->createUser($request)) {
-            return redirect(route('ALL-USERS'));
-        };
-        return redirect()->back();
-    }
+		return view('admin.etudiant.profil', compact(['etudiant', 'evolutions']));
+	}
 
-    /**
-     * Page profil User
-     *
-     * @GET("/view-profil-user/{id}", as="PROFIL-USER-VIEW")
-     * @return mixed
-     */
-    public function show($id)
-    {
-        $user = $this->userservice->findUser($id);
-        return view('admin.user.profil');
-    }
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function edit($id) {
+		$user = $this->etudiantservice->infoUser($id);
 
-    /**
-     * edit avocat
-     *
-     * @GET("/edit-user-view/{id}", as="EDIT-USER-VIEW")
-     * @return mixed
-     */
-    public function edit(User $user)
-    {
-        return view('admin.user.edit');
-    }
+		return view('admin.etudiant.edit', compact(['etudiant']));
+	}
 
-    /**
-     * submit edit user
-     *
-     * @PUT("/submit-edit-user/{id}", as="SUBMIT-EDIT-USER")
-     * @return mixed
-     */
-    public function update(UserValidator $request, $id)
-    {
-        if ($this->userservice->updateUser($request, $id)) {
-            return redirect(route('ALL-USERS'));
-        };
-        return redirect()->back();
-    }
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request $request
+	 * @param  int $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function update(Request $request, $id) {
+		return $this->etudiantservice->update($request, $id);
+	}
 
-    /**
-     * Supprimer User
-     * @DELETE("/supprimer-user/{id}", as="DELETE-USER")
-     * @param $id
-     * @return mixed
-     */
-    public function destroy($id)
-    {
-        //verifie que le role du user permet ce privilège
-        if (!Entrust::can('delete-user')) {
-            App::abort(403);
-        }
-        return json_encode($this->userservice->deleteUser($id));
-    }
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function destroy($id) {
+		//
+	}
 
+	public function listall() {
+		return view('admin.etudiant.listetudiants');
+	}
+
+	public function all(Request $request) {
+		return $this->etudiantservice->listetudiants($request);
+	}
+
+	public function aides() {
+		$etablissements = $this->etablissementservice->listetablissement();
+		$villes = $this->etudiantservice->listevilles();
+		$filieres = $this->filiereservice->listefilieres();
+		return compact(['etablissements', 'villes', 'filieres']);
+	}
 
 }

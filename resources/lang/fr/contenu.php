@@ -8,7 +8,6 @@ return [
 	'page_connexion' => 'Page connection',
 	'connexion_description' => 'connexion utilisateur',
 
-<<<<<<< HEAD
 	/////////sweet alert ///////////
 	'oops' => 'Petit Problème, ',
 	'problem_server' => 'coté serveur ,veillez réessayer !',
@@ -16,15 +15,6 @@ return [
 	'ajout_message' => 'Ajout bien éffectué !',
 	'update_titre' => 'Editer',
 	'update_message' => 'Mise à jour bien éffectué !',
-=======
-    /////////sweet alert ///////////
-    'oops' => 'Petit Problème, ',
-    'problem_server' => 'coté serveur ,veillez réessayer !',
-    'ajout_titre' => 'Ajout',
-    'ajout_message' => 'Ajout bien éffectué !',
-    'update_titre' => 'Modification',
-    'update_message' => 'Mise à jour bien éffectué !',
->>>>>>> d151dbb0afd9511493ca325f341c77b3d3f82d82
 
 	////////////// Etudiants ////////////////
 	'action' => 'Action',

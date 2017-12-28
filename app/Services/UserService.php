@@ -2,23 +2,26 @@
 
 namespace App\Services;
 
+use Illuminate\Http\Request;
+
 /**
  *Intefaces des Users
  **/
 
-interface UserService
-{
+interface UserService {
 
-    public function allUserDatatable();
+	public function listusers(Request $request);
 
-    public function updateUser($request, $id);
+	public function update(Request $request, $id);
 
-    public function createUser($request);
+	public function create(Request $request);
 
-    public function findUser($id);
+	public function find($id);
 
-    public function deleteUser($id);
+	public function delete($id);
 
-    public function countUser();
+	public function count();
+
+	public function listpays();
 
 }

@@ -12,7 +12,7 @@
  */
 
 Route::get('/', function () {
-    return redirect()->route('ADMIN');
+	return redirect()->route('ADMIN');
 });
 
 Auth::routes();
@@ -21,16 +21,19 @@ Auth::routes();
 
 //gestion-fichiers
 Route::group(['prefix' => 'gestion-fichiers', 'middleware' => ['web', 'auth']], function () {
-    Route::get('import-etudiant-form', 'Admin\GestionFicherController@importExport')->name('VIEW-IMPORT-ETUDIANTS');
-    Route::get('downloadExcel/{type}', 'Admin\GestionFicherController@downloadExcel')->name('EXPORT-ETUDIANTS');
-    Route::post('import-etudiants-post', 'Admin\GestionFicherController@importExcel')->name('POST-IMPORT-ETUDIANTS');
+	Route::get('import-etudiant-form', 'Admin\GestionFicherController@importExport')->name('VIEW-IMPORT-ETUDIANTS');
+	Route::get('downloadExcel/{type}', 'Admin\GestionFicherController@downloadExcel')->name('EXPORT-ETUDIANTS');
+	Route::post('import-etudiants-post', 'Admin\GestionFicherController@importExcel')->name('POST-IMPORT-ETUDIANTS');
 });
 
 //gestion-utilisateurs
 Route::get('dashboard', 'Admin\AdminController@index')->middleware(['web', 'auth'])->name('ADMIN');
 
 Route::group(['prefix' => 'gestion-utilisateurs', 'middleware' => ['web', 'auth']], function () {
-    //Route::get('dashboard"', 'AdminController@index')->name('ADMIN');
+	//Route::get('dashboard"', 'AdminController@index')->name('ADMIN');
+	Route::get('users/data', 'Admin\UserController@data')->name('users.data');
+	Route::resource('users', 'Admin\UserController');
+
 });
 
 //gestion-etudiants
@@ -43,12 +46,10 @@ Route::get('etudiants/les-etudiants', 'Admin\EtudiantController@listall')->name(
 Route::get('etudiants/data', 'Admin\EtudiantController@data')->name('etudiants.data');
 Route::resource('etudiants', 'Admin\EtudiantController');
 
-
 //gestion-evolution
 Route::get('evolutions/data', 'Admin\EvolutionController@data')->name('evolutions.data');
 Route::get('evolutions', 'Admin\EvolutionController@index')->name('evolutions.index');
 Route::resource('evolutions', 'Admin\EvolutionController');
-
 
 Route::get('etudiants/generate-pdf/{id}', 'Admin\PdfGenerateController@pdfview')->name('generate-pdf');
 

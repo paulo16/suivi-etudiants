@@ -92,7 +92,7 @@
                     },
                     processing: true,
                     serverSide: true,
-                    ajax: '{!! route('evolutions.data') !!}',
+                    ajax: '{!! route('users.data') !!}',
                     data: {_token: '{{ csrf_token() }}'},
                     dom: 'Bfrtip',
                     buttons: ['csv', 'excel', 'pdf'],
