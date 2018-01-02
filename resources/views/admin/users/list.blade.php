@@ -30,16 +30,16 @@
                     </div>
                 </div>
 
-                <table id="etudiants-table" class="table table-striped table-bordered dt-responsive nowrap"
+                <table id="users-table" class="table table-striped table-bordered dt-responsive nowrap"
                        cellspacing="0"
                        width="100%">
                     <thead>
                     <tr>
                         <th>{{ Lang::get('contenu.user_nom')}}</th>
-                        <th>{{ Lang::get('contenu.user_prenom')}}</th>
                         <th>{{ Lang::get('contenu.user_email')}}</th>
                         <th>{{ Lang::get('contenu.user_role')}}</th>
-                        <th>{{ Lang::get('contenu.action')}}</th>
+                        <th>{{ Lang::get('contenu.user_pays')}}</th>
+                        <th>{{ Lang::get('contenu.user_date')}}</th>
                     </tr>
                     </thead>
                 </table>
@@ -66,7 +66,7 @@
     <script src="{{asset('assets/admin/plugins/datatables/responsive.bootstrap.min.js')}}"></script>
     <script>
         $(document).ready(function () {
-            var table = $('#etudiants-table')
+            var table = $('#users-table')
                 .DataTable({
                     "oLanguage": {
                         "sProcessing": "{{ Lang::get('datatable.sProcessing') }}",
@@ -97,10 +97,11 @@
                     dom: 'Bfrtip',
                     buttons: ['csv', 'excel', 'pdf'],
                     columns: [
-                        {data: 'nom', name: 'users.name'},
-                        {data: 'prenom', name: 'users.prenom'},
-                        {data: 'email', name: 'users.email'},
-                        {data: 'action', name: 'action', orderable: false, searchable: false},
+                        {data: 'nom', name: 'nom'},
+                        {data: 'email', name: 'email'},
+                        {data: 'role', name: 'role'},
+                        {data: 'pays', name: 'pays'},
+                        {data: 'created_at', name: 'created_at'},
                     ],
 
                 });

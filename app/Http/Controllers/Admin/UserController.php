@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Services\UserService;
+use Illuminate\Http\Request;
 
 class UserController extends Controller {
 
@@ -65,9 +66,7 @@ class UserController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit($id) {
-		$user = $this->etudiantservice->infoUser($id);
 
-		return view('admin.etudiant.edit', compact(['etudiant']));
 	}
 
 	/**
@@ -78,7 +77,7 @@ class UserController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function update(Request $request, $id) {
-		return $this->etudiantservice->update($request, $id);
+		return $this->userService->update($request, $id);
 	}
 
 	/**
@@ -91,19 +90,7 @@ class UserController extends Controller {
 		//
 	}
 
-	public function listall() {
-		return view('admin.etudiant.listetudiants');
-	}
-
-	public function all(Request $request) {
-		return $this->etudiantservice->listetudiants($request);
-	}
-
 	public function aides() {
-		$etablissements = $this->etablissementservice->listetablissement();
-		$villes = $this->etudiantservice->listevilles();
-		$filieres = $this->filiereservice->listefilieres();
-		return compact(['etablissements', 'villes', 'filieres']);
 	}
 
 }

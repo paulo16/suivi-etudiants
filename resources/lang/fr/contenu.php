@@ -18,9 +18,10 @@ return [
 
 	////////////// Etudiants ////////////////
 	'action' => 'Action',
-	'user_nom' => 'Profil',
+	'user_nom' => 'Nom',
 	'user_prenom' => 'Prenom',
 	'user_email' => 'Email',
+	'user_date' => 'Date création',
 	'user_role' => 'Role',
 
 	////////////// Etudiants ////////////////

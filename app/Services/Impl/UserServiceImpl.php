@@ -14,10 +14,11 @@ class UserServiceImpl implements UserService {
 	public function listusers(Request $request) {
 		$columns = array(
 			0 => 'id',
-			1 => 'name',
+			1 => 'nom',
 			2 => 'email',
-			3 => 'pays_id',
+			3 => 'pays',
 			4 => 'created_at',
+			5 => 'role',
 		);
 
 		$totalData = User::count();
@@ -32,8 +33,10 @@ class UserServiceImpl implements UserService {
 		if (empty($request->input('search.value'))) {
 
 			$users = User::leftjoin('pays', 'users.pays_id', '=', 'pays.id')
+				->join('role_user', 'role_user.user_id', '=', 'users.id')
+				->join('roles', 'roles.id', '=', 'role_user.role_id')
 				->select('users.id as id', 'users.name as nom', 'users.email as email', 'pays.name as pays',
-					'users.created_at as created_at')
+					'users.created_at as created_at', 'roles.name as role')
 				->offset($start)
 				->limit($limit)
 				->orderBy($order, $dir)
@@ -42,9 +45,11 @@ class UserServiceImpl implements UserService {
 			$search = $request->input('search.value');
 
 			$users = User::leftjoin('pays', 'users.pays_id', '=', 'pays.id')
+				->join('role_user', 'role_user.user_id', '=', 'users.id')
+				->join('roles', 'roles.id', '=', 'role_user.role_id')
 				->select('users.id as id', 'users.name as nom', 'users.email as email', 'pays.name as pays',
-					'users.created_at as created_at')
-				->where('users.nom ', 'LIKE', "%{$search}%")
+					'users.created_at as created_at', 'roles.name as role')
+				->where('users.nom', 'LIKE', "%{$search}%")
 				->orWhere('users.email', 'LIKE', "%{$search}%")
 				->orWhere('pays.name', 'LIKE', "%{$search}%")
 				->offset($start)
@@ -53,8 +58,10 @@ class UserServiceImpl implements UserService {
 				->get();
 
 			$totalFiltered = User::leftjoin('pays', 'users.pays_id', '=', 'pays.id')
+				->join('role_user', 'role_user.user_id', '=', 'users.id')
+				->join('roles', 'roles.id', '=', 'role_user.role_id')
 				->select('users.id as id', 'users.name as nom', 'users.email as email', 'pays.name as pays',
-					'users.created_at as created_at')
+					'users.created_at as created_at', 'roles.name as role')
 				->where('users.nom ', 'LIKE', "%{$search}%")
 				->orWhere('users.email', 'LIKE', "%{$search}%")
 				->orWhere('pays.name', 'LIKE', "%{$search}%")
