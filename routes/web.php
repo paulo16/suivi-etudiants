@@ -54,3 +54,20 @@ Route::resource('evolutions', 'Admin\EvolutionController');
 Route::get('etudiants/generate-pdf/{id}', 'Admin\PdfGenerateController@pdfview')->name('generate-pdf');
 
 Route::get('stats/', 'Admin\StatsController@index')->name('stats.index');
+
+//gestion-etablissements
+Route::group(['prefix' => 'gestion-facultes'], function () {
+	//Route::get('dashboard"', 'AdminController@index')->name('ADMIN');
+	Route::get('facultes/data', 'Admin\EtablissementController@data')->name('etablissements.data');
+	Route::resource('etablissements', 'Admin\EtablissementController');
+
+});
+
+
+//gestion-filieres
+Route::group(['prefix' => 'gestion-filieres'], function () {
+	//Route::get('dashboard"', 'AdminController@index')->name('ADMIN');
+	Route::get('filieres/data', 'Admin\filiereController@data')->name('filieres.data');
+	Route::resource('filieres', 'Admin\filiereController');
+
+});

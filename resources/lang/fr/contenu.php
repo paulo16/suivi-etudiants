@@ -15,6 +15,15 @@ return [
 	'ajout_message' => 'Ajout bien éffectué !',
 	'update_titre' => 'Editer',
 	'update_message' => 'Mise à jour bien éffectué !',
+    'sure'=>'Etês-vous sûr ?',
+    'subtext_sure'=>'Vous ne pourriez plus recuperer cette ligne après  celà !',
+    'confirm_btn'=>'Oui, supprimer !',
+    'cancel_btn'=>'Non, Annuler !',
+    'sup_imp'=>'suppression impossible!',
+    'sub_sup'=>'ligne supprimée !',
+    'supprime'=>'Supprimée !',
+    'oops'=>'Oops!',
+    'problem_server'=>'Probleme côté server.',
 
 	////////////// Etudiants ////////////////
 	'action' => 'Action',
@@ -23,6 +32,7 @@ return [
 	'user_email' => 'Email',
 	'user_date' => 'Date création',
 	'user_role' => 'Role',
+	'user_pays' => 'Pays',
 
 	////////////// Etudiants ////////////////
 	'etudiant_action' => 'Action',
@@ -37,21 +47,17 @@ return [
 	'evolution_filiere' => 'Filiere',
 	'evolution_etablissement' => 'Etablissement',
 
-	////////////// les options /////////////
+	//////////// Etablissement /////////////////
 
-	'title_opt' => 'options',
-	'options' => 'TOUTES LES OPTIONS',
-	'para_avo' => 'PARAMETRES AVOCATS',
-	'para_comp' => 'PARAMETRES COMPTABLES',
-	'para_not' => 'PARAMETRES NOTAIRES',
-	'spec_avo' => 'SPECIALITES AVOCATS',
-	'spec_comp' => 'SPECIALITES COMPTABLES',
-	'spec_not' => 'SPECIALITES NOTAIRES',
-	'spec_cab_avo' => 'SPECIALITES CABINETS AVOCATS',
-	'spec_cab_comp' => 'SPECIALITES CABINETS COMPTABLES',
-	'spec_cab_not' => 'SPECIALITES CABINETS NOTAIRES',
-	'role_per' => 'ROLES ET PERMISSIONS',
-	'def_role' => 'DEFINIR LES ROLES',
+	'etab_nom'=>'Nom',
+	'etab_adresse'=>'Adresse',
+	'etab_site'=>'Site',
+	'etab_tel'=>'Telephone',
+	'sub_sup_imp'=>'Suppression impossible , Element indexé ailleurs ',
+
+	'filiere_nom'=>'Nom',
+	'filiere_description'=>'Description',
+
 
 	//////////////// connexion et authentification //////////
 	///

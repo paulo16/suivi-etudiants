@@ -34,37 +34,21 @@
                     </a>
                 </li>
                 <li class="has_sub">
-                    <a class="waves-effect" href="javascript:void(0);">
+                    <a class="waves-effect" href="{{route('etablissements.index')}}">
                         <i class="md-place">
                         </i>
                         <span>
                             FACULTES
                         </span>
-                        <span class="menu-arrow">
-                        </span>
                     </a>
-                    <ul class="list-unstyled">
-                        <li>
-                            <a href="ui-buttons.html">
-                                LISTER
-                            </a>
-                        </li>
-                        <li>
-                            <a href="ui-loading-buttons.html">
-                                AJOUTER
-                            </a>
-                        </li>
-                    </ul>
                 </li>
                 <li class="has_sub">
-                    <a class="waves-effect" href="javascript:void(0);">
+                    <a class="waves-effect" href="{{route('filieres.index')}}">
                         <i class="icon-directions">
                         </i>
                         <span>
                             FILIERES
                         </span>
-                        <span class="menu-arrow">
-                        </span>
                     </a>
                     <ul class="list-unstyled">
                         <li>
@@ -78,13 +62,6 @@
                             </a>
                         </li>
                     </ul>
-                </li>
-                <li class="has_sub">
-                    <a class="waves-effect" href="{{route('stats.index')}}">
-                        <i class=" md-trending-up">
-                        </i>
-                        STATISTIQUES
-                    </a>
                 </li>
                 <li class="has_sub">
                     <a class="waves-effect" href="{{route('VIEW-IMPORT-ETUDIANTS')}}">

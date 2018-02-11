@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Services\UserService;
+use App\Models\Pays;
+use App\Models\Role;
 use Illuminate\Http\Request;
 
 class UserController extends Controller {
@@ -25,7 +27,7 @@ class UserController extends Controller {
 	}
 
 	public function data(Request $request) {
-		return $this->userService->listusers();
+		return $this->userService->listusers($request);
 	}
 
 	/**
@@ -34,7 +36,11 @@ class UserController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function create() {
+		$pays = Pays::select()->orderBy('nom', 'asc') ->get() ->toArray();
+		$roles = Role::select()->orderBy('name', 'asc') ->get() ->toArray();
+        //dd($pays);
 
+		return view('admin.users.add',compact('pays','roles'));
 	}
 
 	/**
@@ -44,7 +50,18 @@ class UserController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store(Request $request) {
-		return $this->etudiantservice->create($request);
+
+		$this->validate($request, [
+			'nom' => 'required',
+			'email' => 'email|unique:users',
+			'password' => 'required|confirmed',
+			'password_confirmation'=>'required',
+			'prenom' => 'required',
+			'pays' => 'required',
+			'role' => 'required',
+		]);
+
+		return $this->userService->store($request)? redirect()->route('users.index'): redirect()->route('users.create');
 	}
 
 	/**
@@ -52,11 +69,14 @@ class UserController extends Controller {
 	 * @return mixed
 	 */
 	public function show($id) {
-		$user = $this->etudiantservice->infoUser($id);
-		$evolutions = $this->etudiantservice->evolutionUser($id);
-		//dd($evolutions);
+		$user = $this->userService->find($id);
+		$payss=Pays::find($user->pays_id);
+		$roles=$user->roles->pluck('name')->toArray();
+		$role= $roles? $roles[0] :"";
+		$pays=$payss ? $payss->nom : "";
 
-		return view('admin.etudiant.profil', compact(['etudiant', 'evolutions']));
+
+		return view('admin.users.profil', compact(['user', 'role','pays']));
 	}
 
 	/**
@@ -66,7 +86,12 @@ class UserController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit($id) {
+		$user= $this->userService->find($id);
+		$pays = Pays::select()->orderBy('nom', 'asc') ->get() ->toArray();
+		$roles = Role::select()->orderBy('name', 'asc') ->get() ->toArray();
+        //dd($pays);
 
+		return view('admin.users.edit',compact('user','pays','roles'));
 	}
 
 	/**
@@ -77,7 +102,21 @@ class UserController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function update(Request $request, $id) {
-		return $this->userService->update($request, $id);
+		//dd($request);
+		$this->validate($request, [
+			'nom' => 'required',
+			'email' => 'email|unique:users',
+			'password' => 'required|confirmed',
+			'password_confirmation'=>'required',
+			'prenom' => 'required',
+			'pays' => 'required',
+			'role' => 'required',
+		]);
+
+		if($this->userService->update($request, $id)) {
+			return redirect(route('users.show',$id));
+		}
+		return redirect()->back();
 	}
 
 	/**
@@ -87,10 +126,7 @@ class UserController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function destroy($id) {
-		//
-	}
-
-	public function aides() {
+		return $this->userService->delete($id);
 	}
 
 }

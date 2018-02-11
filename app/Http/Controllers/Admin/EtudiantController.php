@@ -135,18 +135,18 @@ class EtudiantController extends Controller
 
     public function findinfo($id)
     {
-        $etablissements = $this->etablissementservice->listetablissement();
+        $etablissements = $this->etablissementservice->list();
         $villes = $this->etudiantservice->listevilles();
-        $filieres = $this->filiereservice->listefilieres();
+        $filieres = $this->filiereservice->list();
         $etudiant =$this->etudiantservice->infoEtudiant($id);
         return compact(['etudiant','etablissements','villes','filieres']) ;
     }
 
     public function evolutions($id)
     {
-        $etablissements = $this->etablissementservice->listetablissement();
+        $etablissements = $this->etablissementservice->list();
         $villes = $this->etudiantservice->listevilles();
-        $filieres = $this->filiereservice->listefilieres();
+        $filieres = $this->filiereservice->list();
         $evolutions = $this->evolutionService->evolutions($id);
         //dd($evolutions);
         return compact(['evolutions','etablissements','villes','filieres']) ;
@@ -155,9 +155,9 @@ class EtudiantController extends Controller
 
     public function aides()
     {
-        $etablissements = $this->etablissementservice->listetablissement();
+        $etablissements = $this->etablissementservice->list();
         $villes = $this->etudiantservice->listevilles();
-        $filieres = $this->filiereservice->listefilieres();
+        $filieres = $this->filiereservice->list();
         return compact(['etablissements','villes','filieres']) ;
     }
 

@@ -2,133 +2,106 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Etablissement;
-use App\Services\EtablissementService;
-use App\Http\Requests\EtablissementValidator;
-use Entrust;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Services\EtablissementService;
+use Illuminate\Http\Request;
 
-/**
- * Class EtablissementController
- * @package App\Http\Controllers\Admin
- */
-class EtablissementController extends Controller
-{
+class EtablissementController extends Controller {
 
-    protected $etablissementservice;
+    public function __construct(EtablissementService $etablissementService) {
+        $this->middleware('web');
+        $this->middleware('auth');
 
-    /**
-     * EtablissementController constructor.
-     * @param EtablissementService $etablissementService
-     */
-    public function __construct(EtablissementService $etablissementService)
-    {
-        $this->etablissementservice = $etablissementService;
-
+        $this->etablissementService = $etablissementService;
     }
 
     /**
-     * Page list person
-     * @GET("/tous-etablissements", as="ALL-ETABLISSEMENTS")
-     * @return mixed
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //verifie que le role du user permet ce privilège
-        if (!Entrust::hasRole(['admin', 'manageur'])) {
-            App::abort(403);
-        }
-
+    public function index() {
         return view('admin.etablissement.list');
     }
 
-
-    /**
-     *
-     * @GET("/table-etablissements", as="ALL-ETABLISSEMENTS-DATATABLE")
-     * @return mixed
-     */
-    public function allEtablissementtDataTable()
-    {
-        return $this->etablissementservice->allEtablissementDataTable();
+    public function data(Request $request) {
+        return $this->etablissementService->listetablissements($request);
     }
 
     /**
-     * Page add etablissement
+     * Show the form for creating a new resource.
      *
-     * @GET("/ajouter-etablissement", as="AJOUTER-ETABLISSEMENT-VIEW")
-     * @return mixed
+     * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
+
         return view('admin.etablissement.add');
     }
 
     /**
-     * submit etablissement
-     * @POST("/submit-add-etablissement", as="SUBMIT-ADD-ETABLISSEMENT")
-     * @return mixed
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
      */
-    public function store(EtablissementValidator $request)
-    {
-        if ($this->etablissementservice->createEtablissement($request)) {
-            return redirect(route('ALL-ETABLISSEMENTS'));
-        };
-        return redirect()->back();
+    public function store(Request $request) {
+
+        $this->validate($request, [
+            'nom' => 'required',
+        ]);
+
+        return $this->etablissementService->store($request)? redirect()->route('etablissements.index'): redirect()->route('etablissements.create');
     }
 
     /**
-     * Page profil Etablissement
-     *
-     * @GET("/view-profil-etablissement/{id}", as="PROFIL-ETABLISSEMENT-VIEW")
+     * @param $id
      * @return mixed
      */
-    public function show($id)
-    {
-        $etablissement = $this->etablissementservice->findEtablissement($id);
+    public function show($id) {
+        $etablissement = $this->etablissementService->find($id);
+
+
         return view('admin.etablissement.profil');
     }
 
     /**
-     * edit avocat
+     * Show the form for editing the specified resource.
      *
-     * @GET("/edit-etablissement-view/{id}", as="EDIT-ETABLISSEMENT-VIEW")
-     * @return mixed
+     * @param  int $id
+     * @return \Illuminate\Http\Response
      */
-    public function edit(Etablissement $etablissement)
-    {
-        return view('admin.etablissement.edit');
+    public function edit($id) {
+        $etablissement= $this->etablissementService->find($id);
+        return view('admin.etablissement.edit',compact('etablissement'));
     }
 
     /**
-     * submit edit etablissement
+     * Update the specified resource in storage.
      *
-     * @PUT("/submit-edit-etablissement/{id}", as="SUBMIT-EDIT-ETABLISSEMENT")
-     * @return mixed
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     * @return \Illuminate\Http\Response
      */
-    public function update(EtablissementValidator $request, $id)
-    {
-        if ($this->etablissementservice->updateEtablissement($request, $id)) {
-            return redirect(route('ALL-ETABLISSEMENTS'));
-        };
+    public function update(Request $request, $id) {
+        //dd($request);
+        $this->validate($request, [
+            'nom' => 'required',
+        ]);
+
+        if($this->etablissementService->update($request, $id)) {
+            return redirect(route('etablissements.index'));
+        }
         return redirect()->back();
     }
 
     /**
-     * Supprimer Etablissement
-     * @DELETE("/supprimer-etablissement/{id}", as="DESTROY-ETABLISSEMENT")
-     * @param $id
-     * @return mixed
+     * Remove the specified resource from storage.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response|boolean
      */
-    public function destroy($id)
-    {
-        //verifie que le role du user permet ce privilège
-        if (!Entrust::can('delete-etablissement')) {
-            App::abort(403);
-        }
-        return json_encode($this->etablissementservice->deleteEtablissement($id));
+    public function destroy($id) {
+        return response()->json($this->etablissementService->delete($id));
     }
-
 
 }

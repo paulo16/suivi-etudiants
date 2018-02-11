@@ -19,28 +19,26 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card-box table-responsive">
-                <h4 class="header-title m-t-0 m-b-30">Liste des Utilisateurs</h4>
+                <h4 class="header-title m-t-0 m-b-30">Liste des Etablissements</h4>
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="m-b-30">
-                            <a id="add-etudiant" role="button" href="{{route('users.create')}}" class="btn btn-primary waves-effect waves-light">
-                              AJOUTER UTILISATEUR <i class="fa fa-plus"></i>
+                            <a id="add-etudiant" role="button" href="{{route('etablissements.create')}}" class="btn btn-primary waves-effect waves-light">
+                              AJOUTER UN ETABLISSEMENT <i class="fa fa-plus"></i>
                             </a>
                         </div>
                     </div>
                 </div>
 
-                <table id="users-table" class="table table-striped table-bordered dt-responsive nowrap"
+                <table id="etablissement-table" class="table table-striped table-bordered dt-responsive nowrap"
                        cellspacing="0"
                        width="100%">
                     <thead>
                     <tr>
-                        <th>{{ Lang::get('contenu.user_nom')}}</th>
-                        <th>{{ Lang::get('contenu.user_prenom')}}</th>
-                        <th>{{ Lang::get('contenu.user_email')}}</th>
-                        <th>{{ Lang::get('contenu.user_role')}}</th>
-                        <th>{{ Lang::get('contenu.user_pays')}}</th>
-                        <th>{{ Lang::get('contenu.user_date')}}</th>
+                        <th>{{ Lang::get('contenu.etab_nom')}}</th>
+                        <th>{{ Lang::get('contenu.etab_adresse')}}</th>
+                        <th>{{ Lang::get('contenu.etab_site')}}</th>
+                        <th>{{ Lang::get('contenu.etab_tel')}}</th>
                         <th>{{ Lang::get('contenu.action')}}</th>
                     </tr>
                     </thead>
@@ -50,10 +48,6 @@
         </div><!-- end col -->
     </div>
     <!-- end row -->
-
-    <!-- MODAL-->
-    @include('admin.etudiant.edit')
-    <!-- MODAL-->
 @endsection
 
 @stop
@@ -68,7 +62,7 @@
     <script src="{{asset('assets/admin/plugins/datatables/responsive.bootstrap.min.js')}}"></script>
     <script>
         $(document).ready(function () {
-            var table = $('#users-table')
+            var table = $('#etablissement-table')
                 .DataTable({
                     "oLanguage": {
                         "sProcessing": "{{ Lang::get('datatable.sProcessing') }}",
@@ -92,25 +86,24 @@
                             "sSortDescending": "{{ Lang::get('datatable.sSortDescending') }}"
                         }
                     },
+                    order: [[ 0, "desc" ]],
                     processing: true,
                     serverSide: true,
-                    ajax: '{!! route('users.data') !!}',
+                    ajax: '{!! route('etablissements.data') !!}',
                     data: {_token: '{{ csrf_token() }}'},
                     dom: 'Bfrtip',
                     buttons: ['csv', 'excel', 'pdf'],
                     columns: [
                         {data: 'nom', name: 'nom'},
-                        {data: 'prenom', name: 'prenom'},
-                        {data: 'email', name: 'email'},
-                        {data: 'role', name: 'role'},
-                        {data: 'pays', name: 'pays'},
-                        {data: 'created_at', name: 'created_at'},
+                        {data: 'adresse', name: 'adresse'},
+                        {data: 'site', name: 'site'},
+                        {data: 'tel', name: 'tel'},
                         {data: 'action', name: 'action'},
                     ],
 
                 });
 
-            //////////////////// Delete User ///////////////////////////////////
+            //////////////////// Delete Etablissement ///////////////////////////////////
 
             $(document).on('click', '.delete', function () {
                 var id = $(this).data('id');
@@ -123,7 +116,7 @@
                     cancelButtonText: "{{Lang::get('contenu.cancel_btn')}}",
                     closeOnConfirm: false
                 };
-                var url = '{{ route("users.destroy", ":id") }}';
+                var url = '{{ route("etablissements.destroy", ":id") }}';
                 url = url.replace(':id', id);
 
                 swal(swal_ot, function () {
@@ -131,10 +124,16 @@
                         url: url,
                         type: 'DELETE',
                         data: {_token: '{{ csrf_token() }}'},
-                    }).done(function () {
-                        swal("{{Lang::get('contenu.supprime')}}", "{{Lang::get('contenu.sub_sup')}}", "success");
-                        table.ajax.reload(null, false);
-                        ;
+                    }).done(function (result) {
+                         console.log(result);
+                         if(result==false){
+                            swal("{{Lang::get('contenu.sup_imp')}}", "{{Lang::get('contenu.sub_sup_imp')}}");
+                            table.ajax.reload(null, false);
+
+                        }else{
+                            swal("{{Lang::get('contenu.supprime')}}", "{{Lang::get('contenu.sub_sup')}}", "success");
+                            table.ajax.reload(null, false);
+                        }
 
                     }).error(function () {
                         swal("{{Lang::get('contenu.oops')}}", "{{Lang::get('contenu.problem_server')}}", "error");

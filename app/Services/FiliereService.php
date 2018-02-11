@@ -2,25 +2,27 @@
 
 namespace App\Services;
 
+use Illuminate\Http\Request;
+
 /**
- *Intefaces des Filière
+ *Intefaces des établissement
  **/
 
 interface FiliereService
 {
 
-    public function allFiliereDatatable();
+	public function listfilieres(Request $request);
 
-    public function updateFiliere($request, $id);
+	public function update(Request $request, $id);
 
-    public function createFiliere($request);
+	public function store(Request $request);
 
-    public function findFiliere($id);
+	public function find($id);
 
-    public function deleteFiliere($id);
+	public function delete($id);
 
-    public function countFiliere();
-
-    public function listefilieres();
+	public function count();
+	
+	public function list();
 
 }

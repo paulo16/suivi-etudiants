@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use Illuminate\Http\Request;
+
 /**
  *Intefaces des établissement
  **/
@@ -9,18 +11,18 @@ namespace App\Services;
 interface EtablissementService
 {
 
-    public function allEtablissementDatatable();
+	public function listEtablissements(Request $request);
 
-    public function updateEtablissement($request, $id);
+	public function update(Request $request, $id);
 
-    public function createEtablissement($request);
+	public function store(Request $request);
 
-    public function findEtablissement($id);
+	public function find($id);
 
-    public function deleteEtablissement($id);
+	public function delete($id);
 
-    public function countEtablissement();
+	public function count();
 
-    public function listetablissement();
+    public function list();
 
 }

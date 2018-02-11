@@ -33,8 +33,8 @@ class AdminController extends Controller {
 	public function index() {
 		$users = $this->userService->count();
 		$etudiants = $this->etudiantservice->countEtudiant();
-		$etablissements = $this->etablissementservice->countEtablissement();
-		$filieres = $this->filiereservice->countFiliere();
+		$etablissements = $this->etablissementservice->count();
+		$filieres = $this->filiereservice->count();
 		$statsvilles = $this->accueilService->statsParAnnees();
 
 		return view('admin.index', compact(['users', 'etudiants',

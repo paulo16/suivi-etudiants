@@ -14,7 +14,7 @@ interface UserService {
 
 	public function update(Request $request, $id);
 
-	public function create(Request $request);
+	public function store(Request $request);
 
 	public function find($id);
 
