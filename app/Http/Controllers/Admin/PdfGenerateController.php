@@ -35,7 +35,10 @@ class PdfGenerateController extends Controller
 
        view()->share('data',$data);
 
-       PDF::setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
+       PDF::setOptions([
+        'dpi' => 150, 
+        'defaultFont' => 'sans-serif',
+         ]);
             // pass view file
        $pdf = PDF::loadView('admin.etudiant.pdfetudiant');
             // download pdf

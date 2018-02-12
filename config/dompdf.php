@@ -259,6 +259,8 @@ return array(
          */
         "DOMPDF_ENABLE_HTML5PARSER" => false,
 
+        "enable_html5_parser" => true,
+
 
     ),
 

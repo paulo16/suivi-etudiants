@@ -111,7 +111,7 @@
                         </a>
                     </div>
                     <div class="text-right">
-                        <a  data-id="{{$etudiant->id}}" class="btn btn-xs btn-primary " id="update-etudiant">
+                        <a  href="{{ route('etudiants.edit', $etudiant) }}" class="btn btn-xs btn-primary " id="update-etudiant">
                             <span class='glyphicon glyphicon-edit'>editer</span>
                         </a>
                     </div>
@@ -176,7 +176,6 @@
             <a  data-id="{{ $etudiant->id }}" class="btn btn-primary waves-effect waves-light" id="add-evolution"><span class='glyphicon  glyphicon-plus'></span>
                 Ajouter une évolution
             </a>
-            @include('admin.etudiant.edit')
             @include('admin.evolution.add')
             @include('admin.evolution.edit')
             @endsection
@@ -204,133 +203,6 @@
                     $('#date-naissance').datepicker({
                         language: 'fr',
                         format: 'yyyy-mm-dd',
-                    });
-
-                    /* show Etudiant */
-
-                    $(document).on('click', '#update-etudiant', function () {
-                        var id = $(this).data('id');
-                        var url = '{{ route("etudiants.findinfo", ":id") }}';
-                        url = url.replace(':id', id);
-                        $.ajax({
-                            url: url,
-                            type: 'GET',
-                        }).done(function (result) {
-                            //console.log(result);
-
-                            $.each(result.etablissements, function(key, value) {
-
-                                if(value.nom == result.etudiant.ecole){
-                                    $('#etablissements')
-                                    .append($("<option selected></option>")
-                                        .attr("value",value.id)
-                                        .text(value.nom));
-                                }else{
-                                    $('#etablissements')
-                                    .append($("<option></option>")
-                                        .attr("value",value.id)
-                                        .text(value.nom)); 
-                                }   
-
-                            });
-
-                            $.each(result.villes, function(key, value) { 
-                                if(value.nom == result.etudiant.ville){ 
-                                   $('#villes')
-                                   .append($("<option selected></option>")
-                                    .attr("value",value.id)
-                                    .text(value.nom)); 
-                               }else{
-                                 $('#villes')
-                                 .append($("<option></option>")
-                                    .attr("value",value.id)
-                                    .text(value.nom)); 
-
-                             }
-                         });
-
-                            $.each(result.filieres, function(key, value) { 
-                                if(value.nom == result.etudiant.filiere){   
-                                   $('#filieres')
-                                   .append($("<option selected></option>")
-                                    .attr("value",value.id)
-                                    .text(value.nom)); 
-                               }else{
-                                   $('#filieres')
-                                   .append($("<option></option>")
-                                    .attr("value",value.id)
-                                    .text(value.nom));
-                               }
-                           });
-
-                            $('#id-etudiant').val(result.etudiant.id);
-                            $('#id-evolution').val(result.etudiant.id_evolution);
-                            $('#nom').val(result.etudiant.nom);
-                            $('#prenom').val(result.etudiant.prenom);
-                            $('#email').val(result.etudiant.email);
-                            $('#tel').val(result.etudiant.tel);
-                            $('#date-naissance').val(result.etudiant.naissance);
-                            $('#situation').val(result.etudiant.situation);
-                            $('#promotion').val(result.etudiant.promotion);
-                            $('#genre').val(result.etudiant.genre);
-                            $('#ville').val(result.etudiant.ville);
-                            $('#etablissement').val(result.etudiant.etablissement);
-                            $('#filiere').val(result.etudiant.filiere);
-                            $('#sousmettre').val("update");
-                            $('#modal-etudiant').modal('show');
-
-                        }).error(function () {
-                            swal("{{Lang::get('contenu.oops')}}", "{{Lang::get('contenu.problem_server')}}", "error");
-                        });
-                    });
-
-
-                    /* save update Etudiant */
-
-                    $("#sousmettre").click(function (e) {
-                        $.ajaxSetup({
-                            headers: {
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            }
-                        });
-                        e.preventDefault();
-                        var formData = {
-                            nom: $('#nom').val(),
-                            prenom: $('#prenom').val(),
-                            email: $('#email').val(),
-                            tel: $('#tel').val(),
-                            date_naissance: $('#date-naissance').val(),
-                            status: $('#situation').val(),
-                            id_evolution: $('#id-evolution').val(),
-                            promotion: $('#promotion').val(),
-                            genre: $('#genre').val(),
-                            ville: $('#villes').val(),
-                            situation: $('#situation').val(),
-                            etablissement: $('#etablissements').val(),
-                            filiere: $('#filieres').val(),
-                        };
-
-                        var etudiant_id = $('#id-etudiant').val();
-                        var    url = '{{ route("etudiants.update",':id') }}';
-                        url = url.replace(':id', etudiant_id);
-                        var    type = "PUT";
-
-                        $.ajax({
-                            type: type,
-                            url: url,
-                            data: formData,
-                        }).done(function (etudiant) {
-
-                            swal("{{Lang::get('contenu.update_titre')}}", "{{Lang::get('contenu.update_message')}}", "success");
-                            location.reload();
-
-                           // $('#form-etudiant').trigger("reset");
-                            //$('#modal-etudiant').modal('hide');
-
-                        }).error(function () {
-                            swal("{{Lang::get('contenu.oops')}}", "{{Lang::get('contenu.problem_server')}}", "error");
-                        });
-
                     });
 
                     /* show edit evolution */
@@ -362,32 +234,32 @@
 
                             $.each(result.villes, function(key, value) { 
                                 if(value.nom == result.evolutions.ville){ 
-                                   $('#villes-evo')
-                                   .append($("<option selected></option>")
-                                    .attr("value",value.id)
-                                    .text(value.nom)); 
-                               }else{
                                  $('#villes-evo')
-                                 .append($("<option></option>")
+                                 .append($("<option selected></option>")
                                     .attr("value",value.id)
                                     .text(value.nom)); 
+                             }else{
+                               $('#villes-evo')
+                               .append($("<option></option>")
+                                .attr("value",value.id)
+                                .text(value.nom)); 
 
-                             }
-                         });
+                           }
+                       });
 
                             $.each(result.filieres, function(key, value) { 
                                 if(value.nom == result.evolutions.filiere){   
-                                   $('#filieres-evo')
-                                   .append($("<option selected></option>")
+                                 $('#filieres-evo')
+                                 .append($("<option selected></option>")
                                     .attr("value",value.id)
                                     .text(value.nom)); 
-                               }else{
-                                   $('#filieres-evo')
-                                   .append($("<option></option>")
+                             }else{
+                                 $('#filieres-evo')
+                                 .append($("<option></option>")
                                     .attr("value",value.id)
                                     .text(value.nom));
-                               }
-                           });
+                             }
+                         });
 
                             $('#id-evolution').val(result.evolutions.id_evolution);
                             $('#annee-evo').val(result.evolutions.annee);
@@ -458,18 +330,18 @@
                             });
 
                             $.each(result.villes, function(key, value) { 
-                             $('#villes-add-evo')
-                             .append($("<option></option>")
-                                .attr("value",value.id)
-                                .text(value.nom)); 
-                         });
-
-                            $.each(result.filieres, function(key, value) { 
-                               $('#filieres-add-evo')
+                               $('#villes-add-evo')
                                .append($("<option></option>")
                                 .attr("value",value.id)
-                                .text(value.nom));
+                                .text(value.nom)); 
                            });
+
+                            $.each(result.filieres, function(key, value) { 
+                             $('#filieres-add-evo')
+                             .append($("<option></option>")
+                                .attr("value",value.id)
+                                .text(value.nom));
+                         });
                             $('#id-etudiant-add-evo').val(id_etudiant);
                             $('#sousmettre-add-evo').val("add");
                             $('#form-add-evoluton').trigger("reset");

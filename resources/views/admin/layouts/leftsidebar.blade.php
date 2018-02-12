@@ -11,7 +11,7 @@
                         <i class="ti-home">
                         </i>
                         <span>
-                            Dashboard
+                            Tableau de bord 
                         </span>
                     </a>
                 </li>
@@ -50,18 +50,6 @@
                             FILIERES
                         </span>
                     </a>
-                    <ul class="list-unstyled">
-                        <li>
-                            <a href="ui-buttons.html">
-                                LISTER
-                            </a>
-                        </li>
-                        <li>
-                            <a href="ui-loading-buttons.html">
-                                AJOUTER
-                            </a>
-                        </li>
-                    </ul>
                 </li>
                 <li class="has_sub">
                     <a class="waves-effect" href="{{route('VIEW-IMPORT-ETUDIANTS')}}">

@@ -67,7 +67,7 @@ Route::group(['prefix' => 'gestion-facultes'], function () {
 //gestion-filieres
 Route::group(['prefix' => 'gestion-filieres'], function () {
 	//Route::get('dashboard"', 'AdminController@index')->name('ADMIN');
-	Route::get('filieres/data', 'Admin\filiereController@data')->name('filieres.data');
-	Route::resource('filieres', 'Admin\filiereController');
+	Route::get('filieres/data', 'Admin\FiliereController@data')->name('filieres.data');
+	Route::resource('filieres', 'Admin\FiliereController');
 
 });

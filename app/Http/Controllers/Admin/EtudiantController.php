@@ -10,6 +10,10 @@ use App\Services\EtablissementService;
 use App\Services\FiliereService;
 use App\Services\AccueilService;
 use App\Services\EvolutionService;
+use App\Models\Ville;
+use App\Models\Evolution;
+use App\Models\Etablissement;
+use App\Models\Filiere;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -39,7 +43,6 @@ class EtudiantController extends Controller
      */
     public function index()
     {
-        return view('admin.etudiant.list');
     }
 
     /**
@@ -49,8 +52,6 @@ class EtudiantController extends Controller
      */
     public function data(EtudiantsDataTable $dataTable)
     {
-        //return $this->etudiantservice->datatable();
-        return $dataTable->render('admin.etudiant.listetudiant');
     }
 
     /**
@@ -60,7 +61,11 @@ class EtudiantController extends Controller
      */
     public function create()
     {
+        $villes = Ville::select()->orderBy('nom', 'asc') ->get() ->toArray();
+        $etablissements = Etablissement::select()->orderBy('nom', 'asc') ->get() ->toArray();
+        $filieres = Filiere::select()->orderBy('nom', 'asc') ->get() ->toArray();
 
+        return view('admin.etudiant.add',compact('villes','etablissements','filieres'));
     }
 
     /**
@@ -71,7 +76,16 @@ class EtudiantController extends Controller
      */
     public function store(Request $request)
     {
-        return $this->etudiantservice->create($request);
+        $this->validate($request, [
+            'nom' => 'required',
+            'prenom' => 'required',
+            'filieres' => 'required',
+            'etablissements' => 'required',
+            'promotion' => 'required',
+            'status' => 'required',
+        ]);
+
+        return $this->etudiantservice->store($request)? redirect()->route('etudiants.index'): redirect()->route('etudiants.create');
     }
 
     /**
@@ -96,8 +110,11 @@ class EtudiantController extends Controller
     public function edit($id)
     {
         $etudiant = $this->etudiantservice->infoEtudiant($id);
+        $villes = Ville::select()->orderBy('nom', 'asc') ->get() ->toArray();
+        $etablissements = Etablissement::select()->orderBy('nom', 'asc') ->get() ->toArray();
+        $filieres = Filiere::select()->orderBy('nom', 'asc') ->get() ->toArray();
 
-        return view('admin.etudiant.edit', compact(['etudiant']));
+        return view('admin.etudiant.edit', compact('etudiant','evolution','villes','etablissements','filieres'));
     }
 
     /**
@@ -109,7 +126,19 @@ class EtudiantController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return $this->etudiantservice->update($request, $id);
+        $this->validate($request, [
+            'nom' => 'required',
+            'prenom' => 'required',
+            'filieres' => 'required',
+            'etablissements' => 'required',
+            'promotion' => 'required',
+            'status' => 'required',
+        ]);
+
+        if($this->etudiantservice->update($request, $id)) {
+            return redirect(route('etudiants.show',$id));
+        }
+        return redirect()->back();
     }
 
     /**

@@ -10,11 +10,9 @@ use Illuminate\Http\Request;
 interface EtudiantService
 {
 
-    public function datatable();
-
     public function update(Request $request, $id);
 
-    public function create(Request $request);
+    public function store(Request $request);
 
     public function find($id);
 

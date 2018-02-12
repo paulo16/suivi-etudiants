@@ -50,9 +50,6 @@
         </div><!-- end col -->
     </div>
     <!-- end row -->
-
-    <!-- MODAL-->
-    @include('admin.etudiant.edit')
     <!-- MODAL-->
 @endsection
 

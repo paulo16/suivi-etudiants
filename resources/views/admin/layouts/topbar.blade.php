@@ -25,6 +25,7 @@
                            aria-expanded="true"><img src="{{asset('/assets/admin/images/users/avatar-1.jpg')}}"
                                                      alt="user-img" class="img-circle"> </a>
                         <ul class="dropdown-menu">
+                            <li class="text-center" ><strong>{{ Auth::user()->name }}</strong></li>
                             <li class="divider"></li>
                             <li>
                                 <a href="{{route('logout')}}"

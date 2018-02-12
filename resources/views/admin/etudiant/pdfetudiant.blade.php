@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html><head>
 	<title>PDF</title>
 	<link href="{{asset('/assets/admin/plugins/datatables/buttons.bootstrap.min.css')}}" rel="stylesheet"
 	type="text/css"/>
 	<link href="{{asset('assets/admin/css/custom.css')}}" rel="stylesheet" type="text/css"/>
-</head>
-<body>
+</head><body>
 	<p style="text-align:center;">Application de Suivi des Etudiants Camerounais au Royaume du Maroc</p>
 	<p style="text-align:center;"><img style="height: 100 px ; width: 200px" src="{{asset('/assets/admin/images/asecam-logo.png')}}" alt="logo"></p>
 
@@ -133,5 +131,4 @@
 			</tbody>
 		</table>
 	</div>
-</body>
-</html>
+</body></html>

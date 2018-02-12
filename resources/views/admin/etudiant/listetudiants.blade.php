@@ -25,11 +25,9 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="m-b-30">
-                        <button class="btn btn-primary waves-effect waves-light" id="add-etudiant">
-                            AJOUTER
-                            <i class="fa fa-plus">
-                            </i>
-                        </button>
+                        <a id="add-un-etudiant" role="button" href="{{route('etudiants.create')}}" class="btn btn-primary waves-effect waves-light">
+                          AJOUTER UN ETUDIANT <i class="fa fa-plus"></i>
+                      </a>
                     </div>
                 </div>
             </div>
@@ -77,8 +75,6 @@
     <!-- end col -->
 </div>
 <!-- end row -->
-<!-- MODAL-->
-@include('admin.etudiant.edit')
 <!-- MODAL-->
 @endsection
 
@@ -134,12 +130,13 @@
                     "sSortDescending": "{{ Lang::get('datatable.sSortDescending') }}"
                 }
             },
+            order: [[ 0, "desc" ]],
             processing: true,
             serverSide: true,
             pageLength: 10,
             lengthMenu: [
-            [10, 30, 50, 200000],
-            [10, 30, 50, "tous"]
+            [10, 30, 50, 500],
+            [10, 30, 50, 500]
             ],
             iDisplayLength: -1,
             "scrollY": "400px",
@@ -153,14 +150,14 @@
                         extend: "pdfHtml5",
                         title: "Application ASECAM liste des étudiants",
                         exportOptions: {
-                            columns: [1, 2, 3, 4, 5, 6, 7, 8,9,10,11]
+                            columns: [0,1, 2, 3, 4, 5, 6, 7, 8,9,10,]
                         }
                     },
                     {
                         extend: "csvHtml5",
                         title: "Application ASECAM liste des étudiants",
                         exportOptions: {
-                            columns: [1, 2, 3, 4, 5, 6, 7, 8,9,10,11]
+                            columns: [0,1, 2, 3, 4, 5, 6, 7, 8,9,10,]
                         }
                     },
                     {
@@ -168,7 +165,7 @@
                         title: "Application ASECAM liste des étudiants",
                         text: "imprimer",
                         exportOptions: {
-                            columns: [1, 2, 3, 4, 5, 6, 7, 8,9,10,11]
+                            columns: [0,1, 2, 3, 4, 5, 6, 7, 8,9,10]
                         }
                     },
                     ],
@@ -218,97 +215,6 @@
                         swal("{{ Lang::get('contenu.oops') }}", "{{ Lang::get('contenu.problem_server') }}", "error");
                     });
                 });
-            });
-
-            //////////////////// show update Etudiant ////////////////////////////////////
-
-            $(document).on('click', '#update-etudiant', function () {
-                var id = $(this).data('id');
-                var url = '{{ route("etudiants.show", ":id") }}';
-                url = url.replace(':id', id);
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                }).done(function (etudiant) {
-                    $('#id-etudiant').val(etudiant.id);
-                    $('#nom').val(etudiant.nom);
-                    $('#prenom').val(etudiant.prenom);
-                    $('#email').val(etudiant.email);
-                    $('#tel').val(etudiant.tel);
-                    $('#date-naissance').val(etudiant.date_naissance);
-                    $('#status').val(etudiant.status);
-                    $('#promotion').val(etudiant.promotion);
-                    $('#genre').val(etudiant.genre);
-                    $('#adresse').val(etudiant.adresse);
-                    $('#sousmettre').val("update");
-                    $('#modal-etudiant').modal('show');
-
-                }).error(function () {
-                    swal("{{ Lang::get('contenu.oops') }}", "{{ Lang::get('contenu.problem_server') }}", "error");
-                });
-            });
-
-            ////////////////// save update Etudiant /////////////////////////////////////
-            $("#sousmettre").click(function (e) {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    }
-                })
-                e.preventDefault();
-                var formData = {
-                    nom: $('#nom').val(),
-                    prenom: $('#prenom').val(),
-                    email: $('#email').val(),
-                    tel: $('#tel').val(),
-                    date_naissance: $('#date-naissance').val(),
-                    status: $('#status').val(),
-                    promotion: $('#promotion').val(),
-                    genre: $('#genre').val(),
-                    adresse: $('#adresse').val()
-                };
-
-                var state = $('#sousmettre').val();
-                var etudiant_id = $('#id-etudiant').val();
-                var type = "POST"; //for creating new resource
-                var url = '{{ route("etudiants.store") }}';
-
-                if (state == "update") {
-                    url = '{{ route("etudiants.update",':id') }}';
-                    url = url.replace(':id', etudiant_id);
-                    type = "PUT"; //for updating existing resource
-                }
-
-                $.ajax({
-                    type: type,
-                    url: url,
-                    data: formData,
-                }).done(function (etudiant) {
-
-                    if (state == "add") { //if user added a new record
-                        swal("{{ Lang::get('contenu.ajout_titre') }}", "{{ Lang::get('contenu.ajout_message') }}", "success");
-                        table.ajax.reload(null, false);
-                        ;
-                    } else { //if user updated an existing record
-                        swal("{{ Lang::get('contenu.update_titre') }}", "{{ Lang::get('contenu.update_message') }}", "success");
-                        table.ajax.reload(null, false);
-                    }
-
-                    $('#form-etudiant').trigger("reset");
-                    $('#modal-etudiant').modal('hide');
-
-                }).error(function () {
-                    swal("{{ Lang::get('contenu.oops') }}", "{{ Lang::get('contenu.problem_server') }}", "error");
-                });
-
-            });
-
-            /////////////////// click add etudiant //////////////////////////////
-
-            $('#add-etudiant').click(function () {
-                $('#sousmettre').val("add");
-                $('#form-etudiant').trigger("reset");
-                $('#modal-etudiant').modal('show');
             });
 
 

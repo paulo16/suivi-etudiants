@@ -85,7 +85,7 @@
 <script src="{{asset('assets/admin/js/jquery.nicescroll.js')}}"></script>
 <script src="{{asset('assets/admin/js/jquery.scrollTo.min.js')}}"></script>
 <script src="{{asset('assets/admin/js/sweetalert.min.js') }}"></script>
-<script src="{{asset('assets/admin/js/chart.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 
 @yield('js')
 

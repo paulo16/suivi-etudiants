@@ -10,9 +10,9 @@
 @section('content')
 
 @section('title_content')
-    <h4 class="page-title">Dashboard</h4>
+    <h4 class="page-title">Tableau de bord</h4>
     <p class="text-muted page-title-alt">
-        Bienvenue sur l'application de suvi des étudiants camerounais au Royaume du Maroc!
+        Bienvenue sur l'application de suvi des étudiants camerounais au Royaume du Maroc !
     </p>
 @endsection
 

@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Jenssegers\Date\Date;
 
-class FiliereServiceImpl implements filiereService {
+class FiliereServiceImpl implements FiliereService {
 
     public function listfilieres(Request $request) {
         $columns = array(

@@ -13,81 +13,80 @@ use Yajra\DataTables\Facades\DataTables;
 
 class EtudiantServiceImpl implements EtudiantService
 {
-    /**
-     * pour les dataTables
-     */
-    public function datatable()
-    {
-        $etudiants = Etudiant::query()->select('id', 'nom', 'prenom', 'date_naissance', 'genre', 'promotion');
 
-        return DataTables::eloquent($etudiants)
-        ->addColumn('action', 'admin.etudiant.action')
-        ->smart(true)
-        ->make(true);
-    }
 
     public function update(Request $request, $id)
     {
+        $etudiant= Etudiant::find($id);
+       $etudiant ->nom = $request->get('nom')? $request->get('nom') : '';
+       $etudiant ->prenom = $request->get('prenom')? $request->get('prenom') : '';
+       $etudiant ->email = $request->get('email')? $request->get('email') : '';
+       $etudiant ->tel            = $request->get('tel')? $request->get('tel') : '';
+       $etudiant ->date_naissance = $request->get('date_naissance')? $request->get('date_naissance') : '';
+       $etudiant ->status = $request->get('status')? $request->get('status') : '';
+       $etudiant ->promotion = $request->get('promotion')? $request->get('promotion') : '';
+       $etudiant ->genre = $request->get('genre')? $request->get('genre') : '';
+       $etudiant ->adresse = $request->get('adresse')? $request->get('adresse') : '';
 
-        Debugbar::info($request);
-        $etudiant = Etudiant::where('id', $id);
+       if( $etudiant->save()){
+        $evolution = new Evolution();
 
-        $updatesEtudiants = [
-            'nom'            => $request->get('nom') ? $request->get('nom') : '',
-            'prenom'         => $request->get('prenom') ? $request->get('prenom') : '',
-            'email'          => $request->get('email') ? $request->get('email') : '',
-            'tel'            => $request->get('tel') ? $request->get('tel') : '',
-            'date_naissance' => $request->get('date_naissance') ? $request->get('date_naissance') : '',
-            'status'         => $request->get('status') ? $request->get('status') : '',
-            'promotion'      => $request->get('promotion') ? $request->get('promotion') : '',
-            'genre'          => $request->get('genre') ? $request->get('genre') : '',
-            'adresse'        => $request->get('adresse') ? $request->get('adresse') : '',
-        ];
-
-        $evolution = Evolution::where('id', $request->get('id_evolution'));
-
-        $updatesEvolutions = [
-            'situation'=>$request->get('situation'),
-            'annee'=> $request->get('promotion'),
-            'ville_id'         => $request->get('ville'),
-            'filiere_id'       => $request->get('filiere'),
-            'etablissement_id' => $request->get('etablissement'),
-        ];
-
-        $etudiant->update($updatesEtudiants);
-        $evolution->update($updatesEvolutions);
-
-        return $this->infoEtudiant($id);
+        $evolution->situation =$request->get('promotion')? $request->get('promotion') : '';
+        $evolution->niveau = $request->get('niveau')? $request->get('niveau') : '';
+        $evolution->annee= $request->get('promotion')? $request->get('promotion') : '';
+        $evolution->etablissement_id= $request->get('etablissements')? $request->get('etablissements') : '';
+        $evolution->filiere_id=$request->get('filieres')? $request->get('filieres') : '';
+        $evolution->ville_id=$request->get('villes')? $request->get('villes') : '';
+        $evolution->etudiant_id= $etudiant->id;
+        $evolution->save();
     }
 
-    public function create(Request $request)
-    {
-        return Etudiant::create([
-            'nom'            => $request->get('nom'),
-            'prenom'         => $request->get('prenom'),
-            'email'          => $request->get('email'),
-            'tel'            => $request->get('tel'),
-            'date_naissance' => $request->get('date_naissance'),
-            'status'         => $request->get('status'),
-            'promotion'      => $request->get('promotion'),
-            'genre'          => $request->get('genre'),
-            'adresse'        => $request->get('adresse'),
-        ]);
+    return $etudiant ;
+}
+
+public function store(Request $request)
+
+{
+    $etudiant= new Etudiant();
+    $etudiant ->nom = $request->get('nom')? $request->get('nom') : '';
+    $etudiant ->prenom = $request->get('prenom')? $request->get('prenom') : '';
+    $etudiant ->email = $request->get('email')? $request->get('email') : '';
+    $etudiant ->tel            = $request->get('tel')? $request->get('tel') : '';
+    $etudiant ->date_naissance = $request->get('date_naissance')? $request->get('date_naissance') : '';
+    $etudiant ->status = $request->get('status')? $request->get('status') : '';
+    $etudiant ->promotion = $request->get('promotion')? $request->get('promotion') : '';
+    $etudiant ->genre = $request->get('genre')? $request->get('genre') : '';
+    $etudiant ->adresse = $request->get('adresse')? $request->get('adresse') : '';
+
+    if( $etudiant->save()){
+        $evolution = new Evolution();
+
+        $evolution->situation =$request->get('promotion')? $request->get('promotion') : '';
+        $evolution->niveau = $request->get('niveau')? $request->get('niveau') : '';
+        $evolution->annee= $request->get('promotion')? $request->get('promotion') : '';
+        $evolution->etablissement_id= $request->get('etablissements')? $request->get('etablissements') : '';
+        $evolution->filiere_id=$request->get('filieres')? $request->get('filieres') : '';
+        $evolution->ville_id=$request->get('villes')? $request->get('villes') : '';
+        $evolution->etudiant_id= $etudiant->id;
+        $evolution->save();
     }
 
-    public function find($id)
-    {
-        $etudiant = Etudiant::find($id);
+    return $etudiant ;
+}
 
-        return $etudiant;
-    }
+public function find($id)
+{
+    $etudiant = Etudiant::find($id);
 
-    public function delete($id)
-    {
-        $etudiant = Etudiant::find($id);
+    return $etudiant;
+}
 
-        return $etudiant->delete();
-    }
+public function delete($id)
+{
+    $etudiant = Etudiant::find($id);
+
+    return $etudiant->delete();
+}
 
     /**
      * @return int
