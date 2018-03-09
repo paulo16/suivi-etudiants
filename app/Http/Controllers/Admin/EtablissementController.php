@@ -93,6 +93,18 @@ class EtablissementController extends Controller {
         }
         return redirect()->back();
     }
+        /**
+     * Show the form for editing the specified resource.
+     *     
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+
+        public function delete(Request $request,$id)
+        {
+            return  $this->destroy($id);
+        }
 
     /**
      * Remove the specified resource from storage.

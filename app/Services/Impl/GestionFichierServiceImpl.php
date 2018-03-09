@@ -15,6 +15,7 @@ use Session;
 class GestionFichierServiceImpl implements GestionFichierService {
 
 	public function importExcel(Request $request) {
+		$etudiant=null;
 		try {
 			if ($request->hasFile('import_file')) {
 				Excel::load($request->file('import_file')->getRealPath(), function ($reader) {
@@ -23,16 +24,15 @@ class GestionFichierServiceImpl implements GestionFichierService {
 							if (!empty($row['nom']) or !empty($row['prenom'])) {
 
 								$etudiant = Etudiant::where([
-									['nom', 'like', isset($row['nom']) ? $row['nom'] : ''],
-									['prenom', 'like', isset($row['prenom']) ? $row['prenom'] : ''],
-									['date_naissance', '=', isset($row['date_de_naissance']) ? $row['date_de_naissance'] : ''],
+									['nom', 'like', isset($row['nom']) ? trim($row['nom']) : ''],
+									['prenom', 'like', isset($row['prenom']) ? trim($row['prenom']) : ''],
 								])->first();
 
 								if (empty($etudiant)) {
 									$etudiant = new Etudiant();
-									$etudiant->nom = isset($row['nom']) ? $row['nom'] : '';
-									$etudiant->prenom = isset($row['prenom']) ? $row['prenom'] : '';
-									$etudiant->date_naissance = isset($row['date_de_naissance']) ? $row['date_de_naissance'] : '0000-00-00';
+									$etudiant->nom = isset($row['nom']) ? trim($row['nom']) : '';
+									$etudiant->prenom = isset($row['prenom']) ? trim($row['prenom']) : '';
+									$etudiant->date_naissance = isset($row['date_de_naissance']) ? trim($row['date_de_naissance']) : '0000-00-00';
 									$etudiant->genre = isset($row['genre']) ? $row['genre'] : '';
 									$etudiant->status = isset($row['status']) ? $row['status'] : '';
 									$etudiant->promotion = isset($row['promotion']) ? trim($row['promotion']) : '';
@@ -45,7 +45,7 @@ class GestionFichierServiceImpl implements GestionFichierService {
 
 							//Filière
 							if (!empty($row['filiere'])) {
-								$filiere = Filiere::where('nom', mb_strtoupper($row['filiere'], 'UTF-8'))->first();
+								$filiere = Filiere::where('nom', mb_strtoupper(trim($row['filiere']), 'UTF-8'))->first();
 								if (empty($filiere)) {
 									$filiere = new Filiere();
 									$filiere->nom = mb_strtoupper($row['filiere'], 'UTF-8');
@@ -55,7 +55,7 @@ class GestionFichierServiceImpl implements GestionFichierService {
 
 							//Etablissement
 							if (!empty($row['etablissement'])) {
-								$etablissement = Etablissement::where('nom', mb_strtoupper($row['etablissement'], 'UTF-8'))->first();
+								$etablissement = Etablissement::where('nom', mb_strtoupper(trim($row['etablissement']), 'UTF-8'))->first();
 								if (empty($etablissement)) {
 									$etablissement = new Etablissement();
 									$etablissement->nom = mb_strtoupper($row['etablissement'], 'UTF-8');
@@ -68,9 +68,9 @@ class GestionFichierServiceImpl implements GestionFichierService {
 							if (!empty($etudiant)) {
 
 								$evolution = DB::table('evolutions')
-									->where('etudiants.id', '=', $etudiant->id)
-									->Join('etudiants', 'evolutions.etudiant_id', '=', 'etudiants.id')
-									->first();
+								->where('etudiants.id', '=', $etudiant->id)
+								->Join('etudiants', 'evolutions.etudiant_id', '=', 'etudiants.id')
+								->first();
 
 								if (empty($evolution)) {
 

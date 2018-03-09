@@ -9,6 +9,7 @@
     <link href="{{ asset('assets/admin/css/pages.css')}} " rel="stylesheet" type="text/css"/>
     <link href="{{ asset('assets/admin/css/responsive.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('assets/admin/css/sweetalert.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('assets/admin/css/dropify.min.css')}}" rel="stylesheet" type="text/css"/>
 
 
     <script src="{{asset('assets/admin/js/modernizr.min.js')}}"></script>
@@ -86,6 +87,7 @@
 <script src="{{asset('assets/admin/js/jquery.scrollTo.min.js')}}"></script>
 <script src="{{asset('assets/admin/js/sweetalert.min.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script src="{{asset('assets/admin/js/dropify.min.js') }}"></script>
 
 @yield('js')
 

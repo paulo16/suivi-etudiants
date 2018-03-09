@@ -28,51 +28,57 @@
                         <a id="add-un-etudiant" role="button" href="{{route('etudiants.create')}}" class="btn btn-primary waves-effect waves-light">
                           AJOUTER UN ETUDIANT <i class="fa fa-plus"></i>
                       </a>
-                    </div>
-                </div>
-            </div>
-            <table cellspacing="0" class="table table-hover" id="etudiants-table" width="100%">
-                <thead>
-                    <tr>
-                        <th>
-                            {{ Lang::get('contenu.etudiant_nom') }}
-                        </th>
-                        <th>
-                            {{ Lang::get('contenu.etudiant_prenom') }}
-                        </th>
-                        <th>
-                            {{ Lang::get('contenu.etudiant_genre') }}
-                        </th>
-                        <th>
-                            {{ Lang::get('contenu.etudiant_promotion') }}
-                        </th>
-                        <th>
-                            {{ Lang::get('contenu.evolution_ville') }}
-                        </th>
-                        <th>
-                            {{ Lang::get('contenu.evolution_filiere') }}
-                        </th>
-                        <th>
-                            {{ Lang::get('contenu.evolution_etablissement') }}
-                        </th>
-                        <th>
-                            Situation
-                        </th>
-                        <th>
-                            {{ Lang::get('contenu.etudiant_date_naissance') }}
-                        </th>
-                        <th>
-                            {{ Lang::get('Télephone') }}
-                        </th>
-                        <th>
-                            {{ Lang::get('Email') }}
-                        </th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-    </div>
-    <!-- end col -->
+                  </div>
+              </div>
+          </div>
+          <table cellspacing="0" class="table table-hover" id="etudiants-table" width="100%">
+            <thead>
+                <tr>
+                   <th>
+                    {{ Lang::get('N°') }}
+                </th>
+                <th>
+                    {{ Lang::get('contenu.etudiant_nom') }}
+                </th>
+                <th>
+                    {{ Lang::get('contenu.etudiant_prenom') }}
+                </th>
+                <th>
+                    {{ Lang::get('contenu.etudiant_genre') }}
+                </th>
+                <th>
+                    {{ Lang::get('contenu.etudiant_promotion') }}
+                </th>
+                <th>
+                    {{ Lang::get('contenu.evolution_ville') }}
+                </th>
+                <th>
+                    {{ Lang::get('contenu.evolution_filiere') }}
+                </th>
+                <th>
+                    {{ Lang::get('contenu.evolution_etablissement') }}
+                </th>
+                <th>
+                    Situation
+                </th>
+                <th>
+                    {{ Lang::get('contenu.etudiant_date_naissance') }}
+                </th>
+                <th>
+                    {{ Lang::get('Télephone') }}
+                </th>
+                <th>
+                    {{ Lang::get('Email') }}
+                </th>
+                <th>
+                    {{ Lang::get('action') }}
+                </th>
+            </tr>
+        </thead>
+    </table>
+</div>
+</div>
+<!-- end col -->
 </div>
 <!-- end row -->
 <!-- MODAL-->
@@ -135,10 +141,11 @@
             serverSide: true,
             pageLength: 10,
             lengthMenu: [
-            [10, 30, 50, 500],
-            [10, 30, 50, 500]
+            [10, 30, 50, 200],
+            [10, 30, 50, 200]
             ],
             iDisplayLength: -1,
+            "scrollX": true,
             "scrollY": "400px",
             ajax: '{!! route('etudiants.all') !!}',
             data: {_token: '{{ csrf_token() }}'},
@@ -168,8 +175,10 @@
                             columns: [0,1, 2, 3, 4, 5, 6, 7, 8,9,10]
                         }
                     },
+
                     ],
                     columns: [
+                    {data: 'numero', name: 'numero'},
                     {data: 'nom', name: 'nom'},
                     {data: 'prenom', name: 'prenom'},
                     {data: 'genre', name: 'genre'},
@@ -181,9 +190,11 @@
                     {data: 'naissance', name: 'naissance'},
                     {data: 'tel', name: 'telephone'},
                     {data: 'email', name: 'email'},
+                    {data: 'action', name: 'action'},
                     ],
 
                 });
+
 
             //////////////////// Delete Etudiant ///////////////////////////////////
 
@@ -198,16 +209,16 @@
                     cancelButtonText: "{{ Lang::get('contenu.cancel_btn') }}",
                     closeOnConfirm: false
                 };
-                var url = '{{ route("etudiants.destroy", ":id") }}';
+                var url = '{{ route("etudiants.delete", ":id") }}';
                 url = url.replace(':id', id);
 
                 swal(swal_ot, function () {
                     $.ajax({
                         url: url,
-                        type: 'DELETE',
+                        type: 'POST',
                         data: {_token: '{{ csrf_token() }}'},
                     }).done(function () {
-                        swal("{{ Lang::get('contenu.supprime') }}", "{{ Lang::get('contenu.avo_sup') }}", "success");
+                        swal("{{ Lang::get('contenu.supprime') }}", "{{ Lang::get('contenu.sub_sup') }}", "success");
                         table.ajax.reload(null, false);
                         ;
 

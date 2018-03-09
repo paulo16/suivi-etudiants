@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\DataTables\EtudiantsDataTable;
 use App\Http\Controllers\Controller;
 use App\Services\UserService;
 use App\Services\EtudiantService;
@@ -85,7 +84,8 @@ class EtudiantController extends Controller
             'status' => 'required',
         ]);
 
-        return $this->etudiantservice->store($request)? redirect()->route('etudiants.index'): redirect()->route('etudiants.create');
+        return $this->etudiantservice->store($request)? redirect()->route('etudiants.listall'): 
+        redirect()->route('etudiants.create');
     }
 
     /**
@@ -149,7 +149,20 @@ class EtudiantController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return  response()->json($this->etudiantservice->delete($id));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *     
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+
+    public function delete(Request $request,$id)
+    {
+        return  response()->json($this->destroy($id));
     }
 
     public function listall()

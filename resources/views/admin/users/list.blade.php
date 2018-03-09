@@ -120,13 +120,13 @@
                     cancelButtonText: "{{Lang::get('contenu.cancel_btn')}}",
                     closeOnConfirm: false
                 };
-                var url = '{{ route("users.destroy", ":id") }}';
+                var url = '{{ route("users.delete", ":id") }}';
                 url = url.replace(':id', id);
 
                 swal(swal_ot, function () {
                     $.ajax({
                         url: url,
-                        type: 'DELETE',
+                        type: 'POST',
                         data: {_token: '{{ csrf_token() }}'},
                     }).done(function () {
                         swal("{{Lang::get('contenu.supprime')}}", "{{Lang::get('contenu.sub_sup')}}", "success");

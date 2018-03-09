@@ -120,6 +120,19 @@ class UserController extends Controller {
 	}
 
 	/**
+     * Show the form for editing the specified resource.
+     *     
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+
+	public function delete(Request $request,$id)
+	{
+		return  response()->json($this->destroy($id));
+	}
+
+	/**
 	 * Remove the specified resource from storage.
 	 *
 	 * @param  int $id

@@ -31,6 +31,7 @@ Route::get('dashboard', 'Admin\AdminController@index')->middleware(['web', 'auth
 
 Route::group(['prefix' => 'gestion-utilisateurs', 'middleware' => ['web', 'auth']], function () {
 	//Route::get('dashboard"', 'AdminController@index')->name('ADMIN');
+	Route::post('users/delete/{id}', 'Admin\UserController@delete')->name('users.delete');
 	Route::get('users/data', 'Admin\UserController@data')->name('users.data');
 	Route::resource('users', 'Admin\UserController');
 
@@ -42,6 +43,7 @@ Route::get('etudiants/evolutions/{id}', 'Admin\EtudiantController@evolutions')->
 Route::get('etudiants/info/{id}', 'Admin\EtudiantController@findinfo')->name('etudiants.findinfo');
 Route::get('etudiants/all', 'Admin\EtudiantController@all')->name('etudiants.all');
 Route::get('etudiants/les-etudiants', 'Admin\EtudiantController@listall')->name('etudiants.listall');
+Route::post('etudiants/delete/{id}', 'Admin\EtudiantController@delete')->name('etudiants.delete');
 
 Route::get('etudiants/data', 'Admin\EtudiantController@data')->name('etudiants.data');
 Route::resource('etudiants', 'Admin\EtudiantController');
@@ -58,6 +60,7 @@ Route::get('stats/', 'Admin\StatsController@index')->name('stats.index');
 //gestion-etablissements
 Route::group(['prefix' => 'gestion-facultes'], function () {
 	//Route::get('dashboard"', 'AdminController@index')->name('ADMIN');
+	Route::post('etablissements/delete/{id}', 'Admin\EtablissementController@delete')->name('etablissements.delete');
 	Route::get('facultes/data', 'Admin\EtablissementController@data')->name('etablissements.data');
 	Route::resource('etablissements', 'Admin\EtablissementController');
 
@@ -67,6 +70,7 @@ Route::group(['prefix' => 'gestion-facultes'], function () {
 //gestion-filieres
 Route::group(['prefix' => 'gestion-filieres'], function () {
 	//Route::get('dashboard"', 'AdminController@index')->name('ADMIN');
+	Route::post('filieres/delete/{id}', 'Admin\FiliereController@delete')->name('filieres.delete');
 	Route::get('filieres/data', 'Admin\FiliereController@data')->name('filieres.data');
 	Route::resource('filieres', 'Admin\FiliereController');
 

@@ -33,8 +33,8 @@ class GestionFicherController extends Controller {
 
 	public function downloadExcel($type) {
 		$etudiants = Etudiant::get()->toArray();
-		return Excel::create('laravelcode', function ($excel) use ($etudiant) {
-			$excel->sheet('etudiants', function ($sheet) use ($etudiant) {
+		return Excel::create('tous_les_etudiants_camerounais', function ($excel) use ($etudiants) {
+			$excel->sheet('etudiants', function ($sheet) use ($etudiants) {
 				$sheet->fromArray($etudiants);
 			});
 		})->download($type);

@@ -157,16 +157,16 @@ type="text/css"/>
                     cancelButtonText: "{{Lang::get('contenu.cancel_btn')}}",
                     closeOnConfirm: false
                 };
-                var url = '{{ route("filieres.destroy", ":id") }}';
+                var url = '{{ route("filieres.delete", ":id") }}';
                 url = url.replace(':id', id);
 
                 swal(swal_ot, function () {
                     $.ajax({
                         url: url,
-                        type: 'DELETE',
+                        type: 'POST',
                         data: {_token: '{{ csrf_token() }}'},
                     }).done(function (result) {
-                     console.log(result);
+
                      if(result==false){
                         swal("{{Lang::get('contenu.sup_imp')}}", "{{Lang::get('contenu.sub_sup_imp')}}");
                         table.ajax.reload(null, false);

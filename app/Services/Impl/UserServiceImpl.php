@@ -151,7 +151,7 @@ class UserServiceImpl implements UserService {
 	}
 
 	public function delete($id) {
-		$user = user::find($id);
+		$user = User::find($id);
 		return $user->delete();
 	}
 

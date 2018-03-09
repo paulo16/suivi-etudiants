@@ -56,7 +56,7 @@
                     </span>
                     <br/>
                     <strong>
-                        Status:
+                        Statut:
                     </strong>
                     <span class="m-l-15">
                         {{$etudiant->situation}}
@@ -163,6 +163,9 @@
                         </td>
                         <td>
                             {{ $evo['situation'] }}
+                        </td>
+                                                <td>
+                            {{ $evo['niveau']}}
                         </td>
 
                         <td>

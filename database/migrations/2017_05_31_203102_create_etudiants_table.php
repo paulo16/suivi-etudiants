@@ -23,6 +23,8 @@ class CreateEtudiantsTable extends Migration
             $table->string('status')->nullable();
             $table->string('promotion')->nullable();
             $table->string('genre')->nullable();
+            $table->text('description')->nullable();
+            $table->boolean('archive')->default(false);
             $table->string('adresse')->nullable();
             $table->timestamps();
 
