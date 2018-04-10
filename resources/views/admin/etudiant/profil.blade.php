@@ -310,6 +310,7 @@
                     });
                     e.preventDefault();
                     var formData = {
+                        _method: 'PUT',
                         id_evolution: $('#id-evolution').val(),
                         annee: $('#annee-evo').val(),
                         situation: $('#situation-evo').val(),
@@ -322,7 +323,7 @@
                     var evolution_id = $('#id-evolution').val();
                     var    url = '{{ route("evolutions.update",':id') }}';
                     url = url.replace(':id', evolution_id);
-                    var    type = "PUT";
+                    var    type = "POST";
 
                     $.ajax({
                         type: type,

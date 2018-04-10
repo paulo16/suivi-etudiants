@@ -16,6 +16,7 @@
                     <input id="id-evolution" type="hidden" value=""/>
                     <div class="row">
                         <div class="col-md-6">
+                            
                             <div class="form-group">
                                 <label class="control-label" for="annee-evo">
                                     Année
@@ -30,7 +31,7 @@
                                 </label>
 
                                 <select name="situation-evo" id="situation-evo" required class="form-control">
-                                  <option disabled>-- Choisir un status --</option>
+                                  <option disabled>-- Choisir un statut --</option>
                                   <option value="BOURSIER(MINESUP)" 
                                   @if($etudiant->status == "BOURSIER(MINESUP)") selected="selected" @endif >BOURSIER(MINESUP)</option>
                                   <option value="BOURSIER(MINEFOP)" 
