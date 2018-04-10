@@ -73,7 +73,7 @@
                         Promotion:
                     </strong>
                     <span class="m-l-15">
-                        {{$etudiant->promotion}}
+                        {{$etudiant->promo}}
                     </span>
                     <br/>
                     <strong>

@@ -107,9 +107,9 @@ class EtudiantServiceImpl implements EtudiantService
         ->join('etablissements', 'evolutions.etablissement_id', '=', 'etablissements.id')
         ->select('etudiants.id as id', 'etudiants.nom as nom', 'etudiants.prenom as prenom',
             'etudiants.tel as tel', 'etudiants.email as email','etudiants.adresse as adresse',
-            'etudiants.date_naissance as naissance', 'etudiants.genre as genre',
+            'etudiants.date_naissance as naissance', 'etudiants.genre as genre','etudiants.promotion as promo',
             'etudiants.lieu_naissance as lieu_naissance', 'evolutions.annee as promotion','evolutions.niveau as niveau',
-             'villes.nom as ville', 'filieres.nom as filiere', 'etablissements.nom as ecole', 'evolutions.situation as situation', 'evolutions.id as id_evolution')
+            'villes.nom as ville', 'filieres.nom as filiere', 'etablissements.nom as ecole', 'evolutions.situation as situation', 'evolutions.id as id_evolution')
         ->where('evolutions.etudiant_id', '=', $id)
         ->orderBy('evolutions.id','desc')
         ->first();
@@ -145,34 +145,36 @@ class EtudiantServiceImpl implements EtudiantService
 
         if (empty($request->input('search.value'))) {
 
-            $etudiants = Etudiant::leftjoin('evolutions', 'evolutions.etudiant_id', '=', 'etudiants.id')
-            ->join('villes', 'evolutions.ville_id', '=', 'villes.id')
-            ->join('filieres', 'evolutions.filiere_id', '=', 'filieres.id')
-            ->join('etablissements', 'evolutions.etablissement_id', '=', 'etablissements.id')
+            $etudiants =\DB::table('etudiants')
+            ->leftJoin(\DB::raw('(SELECT * FROM evolutions A WHERE id = (SELECT MAX(id) FROM evolutions B WHERE A.etudiant_id=B.etudiant_id)) AS evo'), function($join) {
+                $join->on('etudiants.id', '=', 'evo.etudiant_id');
+            })
+            ->join('villes', 'evo.ville_id', '=', 'villes.id')
+            ->join('filieres', 'evo.filiere_id', '=', 'filieres.id')
+            ->join('etablissements', 'evo.etablissement_id', '=', 'etablissements.id')
             ->select('etudiants.id as id', 'etudiants.nom as nom', 'etudiants.tel as tel', 'etudiants.prenom as prenom',
                 'etudiants.date_naissance as naissance', 'etudiants.genre as genre',
                 'etudiants.promotion as promotion', 'villes.nom as ville', 'villes.id as ville_id',
                 'filieres.nom as filiere', 'etudiants.email as email',
-                'etablissements.nom as ecole', 'evolutions.situation as situation')
-            ->whereColumn('etudiants.promotion', 'evolutions.annee')
+                'etablissements.nom as ecole', 'evo.situation as situation')
             ->offset($start)
             ->limit($limit)
             ->orderBy($order, $dir)
             ->get();
         } else {
             $search = $request->input('search.value');
-
-            $etudiants = Etudiant::leftjoin('evolutions', 'evolutions.etudiant_id', '=', 'etudiants.id')
-            ->join('villes', 'evolutions.ville_id', '=', 'villes.id')
-            ->join('filieres', 'evolutions.filiere_id', '=', 'filieres.id')
-            ->join('etablissements', 'evolutions.etablissement_id', '=', 'etablissements.id')
-            ->select('etudiants.id as id', 'etudiants.nom as nom', 'etudiants.tel as tel',
-                'etudiants.prenom as prenom', 'etudiants.email as email',
+            $etudiants =\DB::table('etudiants')
+            ->leftJoin(\DB::raw('(SELECT * FROM evolutions A WHERE id = (SELECT MAX(id) FROM evolutions B WHERE A.etudiant_id=B.etudiant_id)) AS evo'), function($join) {
+                $join->on('etudiants.id', '=', 'evo.etudiant_id');
+            })
+            ->join('villes', 'evo.ville_id', '=', 'villes.id')
+            ->join('filieres', 'evo.filiere_id', '=', 'filieres.id')
+            ->join('etablissements', 'evo.etablissement_id', '=', 'etablissements.id')
+            ->select('etudiants.id as id', 'etudiants.nom as nom', 'etudiants.tel as tel', 'etudiants.prenom as prenom',
                 'etudiants.date_naissance as naissance', 'etudiants.genre as genre',
                 'etudiants.promotion as promotion', 'villes.nom as ville', 'villes.id as ville_id',
-                'filieres.nom as filiere',
-                'etablissements.nom as ecole', 'evolutions.situation as situation')
-            ->whereColumn('etudiants.promotion', 'evolutions.annee')
+                'filieres.nom as filiere', 'etudiants.email as email',
+                'etablissements.nom as ecole', 'evo.situation as situation')
             ->where('etudiants.nom', 'LIKE', "%{$search}%")
             ->orWhere('etudiants.prenom', 'LIKE', "%{$search}%")
             ->orWhere('etudiants.date_naissance', 'LIKE', "%{$search}%")
@@ -183,22 +185,24 @@ class EtudiantServiceImpl implements EtudiantService
             ->orWhere('etablissements.nom', 'LIKE', "%{$search}%")
             ->orWhere('etudiants.tel', 'LIKE', "%{$search}%")
             ->orWhere('etudiants.email', 'LIKE', "%{$search}%")
-            ->orWhere('evolutions.situation', 'LIKE', "%{$search}%")
+            ->orWhere('evo.situation', 'LIKE', "%{$search}%")
             ->offset($start)
             ->limit($limit)
             ->orderBy($order, $dir)
             ->get();
 
-            $totalFiltered = Etudiant::leftjoin('evolutions', 'evolutions.etudiant_id', '=', 'etudiants.id')
-            ->join('villes', 'evolutions.ville_id', '=', 'villes.id')
-            ->join('filieres', 'evolutions.filiere_id', '=', 'filieres.id')
-            ->join('etablissements', 'evolutions.etablissement_id', '=', 'etablissements.id')
-            ->select('etudiants.id as id','etudiants.nom as nom', 'etudiants.tel as tel', 'etudiants.prenom as prenom', 'etudiants.email as email',
+            $totalFiltered = \DB::table('etudiants')
+            ->leftJoin(\DB::raw('(SELECT * FROM evolutions A WHERE id = (SELECT MAX(id) FROM evolutions B WHERE A.etudiant_id=B.etudiant_id)) AS evo'), function($join) {
+                $join->on('etudiants.id', '=', 'evo.etudiant_id');
+            })
+            ->join('villes', 'evo.ville_id', '=', 'villes.id')
+            ->join('filieres', 'evo.filiere_id', '=', 'filieres.id')
+            ->join('etablissements', 'evo.etablissement_id', '=', 'etablissements.id')
+            ->select('etudiants.id as id', 'etudiants.nom as nom', 'etudiants.tel as tel', 'etudiants.prenom as prenom',
                 'etudiants.date_naissance as naissance', 'etudiants.genre as genre',
                 'etudiants.promotion as promotion', 'villes.nom as ville', 'villes.id as ville_id',
-                'filieres.nom as filiere',
-                'etablissements.nom as ecole', 'evolutions.situation as situation')
-            ->whereColumn('etudiants.promotion', 'evolutions.annee')
+                'filieres.nom as filiere', 'etudiants.email as email',
+                'etablissements.nom as ecole', 'evo.situation as situation')
             ->where('etudiants.nom', 'LIKE', "%{$search}%")
             ->orWhere('etudiants.prenom', 'LIKE', "%{$search}%")
             ->orWhere('etudiants.date_naissance', 'LIKE', "%{$search}%")
@@ -208,12 +212,13 @@ class EtudiantServiceImpl implements EtudiantService
             ->orWhere('filieres.nom', 'LIKE', "%{$search}%")
             ->orWhere('etablissements.nom', 'LIKE', "%{$search}%")
             ->orWhere('etudiants.tel', 'LIKE', "%{$search}%")
-            ->orWhere('evolutions.situation', 'LIKE', "%{$search}%")
+            ->orWhere('evo.situation', 'LIKE', "%{$search}%")
             ->orWhere('etudiants.email', 'LIKE', "%{$search}%")
             ->count();
         }
 
         $data = array();
+        $numero=0;
 
         if (!empty($etudiants)) {
 
@@ -226,7 +231,7 @@ class EtudiantServiceImpl implements EtudiantService
                 $edit = route('etudiants.edit', $etudiant->id);
                 $del =str_replace(":id",$etudiant->id,$delete); 
 
-                $nestedData['numero']    = $etudiant->id;
+                $nestedData['numero']    = $numero ++ ;
                 $nestedData['genre']     = $etudiant->genre ? $etudiant->genre: '-';
                 $nestedData['promotion'] = $etudiant->promotion ? $etudiant->promotion :'-';
                 $nestedData['ville']     = $etudiant->ville ? $etudiant->ville: '-';
