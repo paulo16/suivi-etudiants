@@ -39,7 +39,7 @@
                                   @if($etudiant->status == "STAGAIRE") selected="selected" @endif >STAGAIRE</option>
                                   <option value="NON-BOURSIER"  
                                   @if($etudiant->status == "NON-BOURSIER") selected="selected" @endif>NON-BOURSIER</option>
-                                  <option value="non boursier"  
+                                  <option value="AUTRES"  
                                   @if($etudiant->status == "AUTRES") selected="selected" @endif>AUTRES</option>
                               </select>
 
@@ -82,7 +82,8 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="niveau">Niveau*</label>
-                        <input type="number" name="niveau" parsley-trigger="change" required placeholder="Entrer la niveau" class="form-control" id="niveau" value="">
+                        <input type="number" name="niveau-evo" placeholder="Entrer la niveau" class="form-control" 
+                        id="niveau-evo" value="">
                     </div>
 
                 </div>

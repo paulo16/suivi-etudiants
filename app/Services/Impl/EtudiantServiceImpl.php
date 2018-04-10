@@ -110,8 +110,8 @@ class EtudiantServiceImpl implements EtudiantService
             'etudiants.date_naissance as naissance', 'etudiants.genre as genre',
             'etudiants.lieu_naissance as lieu_naissance', 'evolutions.annee as promotion','evolutions.niveau as niveau',
              'villes.nom as ville', 'filieres.nom as filiere', 'etablissements.nom as ecole', 'evolutions.situation as situation', 'evolutions.id as id_evolution')
-        ->whereColumn('evolutions.annee', '=', 'etudiants.promotion')
         ->where('evolutions.etudiant_id', '=', $id)
+        ->orderBy('evolutions.id','desc')
         ->first();
     }
 

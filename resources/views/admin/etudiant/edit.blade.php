@@ -153,7 +153,7 @@ type="text/css"/>
               @if($etudiant->status == "STAGAIRE") selected="selected" @endif >STAGAIRE</option>
               <option value="NON-BOURSIER"  
               @if($etudiant->status == "NON-BOURSIER") selected="selected" @endif>NON-BOURSIER</option>
-              <option value="non boursier"  
+              <option value="AUTRES"  
               @if($etudiant->status == "AUTRES") selected="selected" @endif>AUTRES</option>
             </select>
           </div>

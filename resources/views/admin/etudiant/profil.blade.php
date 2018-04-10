@@ -284,6 +284,7 @@
                                     .text(value.nom));
                              }
                          });
+                            $('#niveau-evo').val(result.evolutions.niveau);
 
                             $('#id-evolution').val(result.evolutions.id_evolution);
                             $('#annee-evo').val(result.evolutions.annee);
@@ -310,6 +311,7 @@
                         annee: $('#annee-evo').val(),
                         situation: $('#situation-evo').val(),
                         ville: $('#villes-evo').val(),
+                        niveau: $('#niveau-evo').val(),
                         etablissement: $('#etablissements-evo').val(),
                         filiere: $('#filieres-evo').val(),
                     };
@@ -326,6 +328,7 @@
                     }).done(function (evolution) {
 
                         swal("{{Lang::get('contenu.update_titre')}}", "{{Lang::get('contenu.update_message')}}", "success");
+                        console.log('niveau - '+$('#niveau-evo').val());
                         location.reload();
 
                     }).error(function () {
@@ -391,6 +394,7 @@
                         annee: $('#annee-add-evo').val(),
                         situation: $('#situation-add-evo').val(),
                         ville: $('#villes-add-evo').val(),
+                        niveau: $('#niveau').val(),
                         etablissement: $('#etablissements-add-evo').val(),
                         filiere: $('#filieres-add-evo').val(),
                     };

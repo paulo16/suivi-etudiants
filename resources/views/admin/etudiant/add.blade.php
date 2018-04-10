@@ -153,8 +153,8 @@ type="text/css"/>
               <option value="BOURSIER(MINESUP)">BOURSIER(MINESUP)</option>
               <option value="BOURSIER(MINEFOP)">BOURSIER(MINEFOP)</option>
               <option value="non boursier">STAGAIRE</option>
-              <option value="non boursier">NON-BOURSIER</option>
-              <option value="non boursier">AUTRES</option>
+              <option value="NON-BOURSIER">NON-BOURSIER</option>
+              <option value="AUTRES">AUTRES</option>
             </select>
           </div>
         </div>

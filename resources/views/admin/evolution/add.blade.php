@@ -31,16 +31,11 @@
 
                                 <select name="situation-evo" id="situation-add-evo" required class="form-control">
                                   <option disabled>-- Choisir un status --</option>
-                                  <option value="BOURSIER(MINESUP)" 
-                                  @if($etudiant->status == "BOURSIER(MINESUP)") selected="selected" @endif >BOURSIER(MINESUP)</option>
-                                  <option value="BOURSIER(MINEFOP)" 
-                                  @if($etudiant->status == "BOURSIER(MINEFOP)") selected="selected" @endif>BOURSIER(MINEFOP)</option>
-                                  <option value="STAGAIRE" 
-                                  @if($etudiant->status == "STAGAIRE") selected="selected" @endif >STAGAIRE</option>
-                                  <option value="NON-BOURSIER"  
-                                  @if($etudiant->status == "NON-BOURSIER") selected="selected" @endif>NON-BOURSIER</option>
-                                  <option value="non boursier"  
-                                  @if($etudiant->status == "AUTRES") selected="selected" @endif>AUTRES</option>
+                                  <option value="BOURSIER(MINESUP)" >BOURSIER(MINESUP)</option>
+                                  <option value="BOURSIER(MINEFOP)">BOURSIER(MINEFOP)</option>
+                                  <option value="STAGAIRE" >STAGAIRE</option>
+                                  <option value="NON-BOURSIER" >NON-BOURSIER</option>
+                                  <option value="AUTRES" >AUTRES</option>
                               </select>
 
                           </div>
@@ -81,7 +76,7 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="niveau">Niveau*</label>
-                        <input type="number" name="niveau" parsley-trigger="change" required placeholder="Entrer la niveau" class="form-control" id="niveau" value="">
+                        <input type="number" name="niveau" parsley-trigger="change"  placeholder="Entrer la niveau" class="form-control" id="niveau" value="">
                     </div>
                 </div>
             </div>
