@@ -105,7 +105,7 @@ type="text/css"/>
 
 
           <div class="col-md-4">
-            <div class="form-group col-lg-6">
+            <div class="form-group col-lg-8">
              <label for="filieres">Filieres*</label>
              <select class="form-control" name="filieres" id="filieres">
                @foreach ($filieres as $p)
@@ -146,7 +146,7 @@ type="text/css"/>
 
 
         <div class="col-md-4">
-          <div class="form-group col-lg-6">
+          <div class="form-group col-lg-8">
             <label for="status">Status*</label>
             <select name="status" id="status" required class="form-control">
               <option disabled>-- Choisir un status --</option>
@@ -161,7 +161,7 @@ type="text/css"/>
 
 
         <div class="col-md-4">
-          <div class="form-group col-lg-6">
+          <div class="form-group col-lg-8">
            <label for="etablissements">Etablissements*</label>
            <select class="form-control" name="etablissements" id="etablissements">
              @foreach ($etablissements as $p)
@@ -186,7 +186,7 @@ type="text/css"/>
       </div>
 
       <div class="col-md-4">
-        <div class="form-group col-lg-6">
+        <div class="form-group col-lg-8">
           <label for="villes">Villes*</label>
           <select class="form-control" name="villes" id="villes">
            @foreach ($villes as $p)

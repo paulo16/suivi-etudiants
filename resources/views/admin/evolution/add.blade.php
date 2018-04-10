@@ -20,7 +20,7 @@
                                 <label class="control-label" for="annee-add-evo">
                                     Année
                                 </label>
-                                <input class="form-control" id="annee-add-evo" name="annee-add-evo" type="text" value=""/>
+                                <input class="form-control" id="annee-add-evo" name="annee-add-evo" type="number" value=""/>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -28,57 +28,77 @@
                                 <label class="control-label" for="situation-add-evo">
                                     Situation
                                 </label>
-                                <input class="form-control" id="situation-add-evo" name="situation-add-evo" type="text" value=""/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div id="villes-div" class="input-group">
-                                <label class="control-label" for="villes-add-evo">
-                                    Villes
-                                </label>
-                                <select class="form-control" name="villes-add-evo" id="villes-add-evo">
-                                </select>
-                            </div>
-                        </div>
 
-                        <div class="col-md-6">
-                            <div id="filieres-div" class="input-group">
-                                <label class="control-label" for="filieres-add-evo">
-                                    Filières
-                                </label>
-                                <select class="form-control" name="filieres-add-evo" id="filieres-add-evo">
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
+                                <select name="situation-evo" id="situation-add-evo" required class="form-control">
+                                  <option disabled>-- Choisir un status --</option>
+                                  <option value="BOURSIER(MINESUP)" 
+                                  @if($etudiant->status == "BOURSIER(MINESUP)") selected="selected" @endif >BOURSIER(MINESUP)</option>
+                                  <option value="BOURSIER(MINEFOP)" 
+                                  @if($etudiant->status == "BOURSIER(MINEFOP)") selected="selected" @endif>BOURSIER(MINEFOP)</option>
+                                  <option value="STAGAIRE" 
+                                  @if($etudiant->status == "STAGAIRE") selected="selected" @endif >STAGAIRE</option>
+                                  <option value="NON-BOURSIER"  
+                                  @if($etudiant->status == "NON-BOURSIER") selected="selected" @endif>NON-BOURSIER</option>
+                                  <option value="non boursier"  
+                                  @if($etudiant->status == "AUTRES") selected="selected" @endif>AUTRES</option>
+                              </select>
 
-                        <div class="col-md-6">
-                            <div id="etablissement-div" class="input-group">
-                                <label class="control-label" for="etablissements-add-evo">
-                                    Etablissements
-                                </label>
-                                <select class="form-control" name="etablissements-add-evo" id="etablissements-add-evo">
-                                </select>
-                            </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                        <div id="villes-div" class="input-group">
+                            <label class="control-label" for="villes-add-evo">
+                                Villes
+                            </label>
+                            <select class="form-control" name="villes-add-evo" id="villes-add-evo">
+                            </select>
                         </div>
                     </div>
-                    <br>
-                    <button class="btn btn-primary" id="sousmettre-add-evo" type="submit">
-                        Mettre à jour
-                    </button>
-                    <br>
-                </form>
+
+                    <div class="col-md-6">
+                        <div id="filieres-div" class="input-group">
+                            <label class="control-label" for="filieres-add-evo">
+                                Filières
+                            </label>
+                            <select class="form-control" name="filieres-add-evo" id="filieres-add-evo">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div id="etablissement-div" class="input-group">
+                            <label class="control-label" for="etablissements-add-evo">
+                                Etablissements
+                            </label>
+                            <select class="form-control" name="etablissements-add-evo" id="etablissements-add-evo">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="niveau">Niveau*</label>
+                        <input type="number" name="niveau" parsley-trigger="change" required placeholder="Entrer la niveau" class="form-control" id="niveau" value="">
+                    </div>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button class="btn btn-default" data-dismiss="modal" type="button">
-                    Fermer
-                </button>
-            </div>
-        </div>
-        <!-- /.modal-content -->
+            <br>
+            <button class="btn btn-primary" id="sousmettre-add-evo" type="submit">
+                Ajouter
+            </button>
+            <br>
+        </form>
     </div>
-    <!-- /.modal-dialog -->
+    <div class="modal-footer">
+        <button class="btn btn-default" data-dismiss="modal" type="button">
+            Fermer
+        </button>
+    </div>
+</div>
+<!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
 </div>

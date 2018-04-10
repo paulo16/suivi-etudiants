@@ -32,7 +32,7 @@ class EtudiantServiceImpl implements EtudiantService
         if( $etudiant->save()){
             $evolution = Evolution::where('etudiant_id',$id)->orderBy('id','desc')->first();
 
-            $evolution->situation =$request->get('promotion')? $request->get('promotion') : '';
+            $evolution->situation =$request->get('status')? $request->get('status') : '';
             $evolution->niveau = $request->get('niveau')? $request->get('niveau') : '';
             $evolution->annee= $request->get('promotion')? $request->get('promotion') : '';
             $evolution->etablissement_id= $request->get('etablissements')? $request->get('etablissements') : '';
