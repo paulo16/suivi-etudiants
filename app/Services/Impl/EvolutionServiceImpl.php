@@ -60,4 +60,11 @@ class EvolutionServiceImpl implements EvolutionService
         ]);
     }
 
+    public function delete($id)
+    {
+        $evolution = Evolution::find($id);
+
+        return $evolution->delete();
+    }
+
 }

@@ -192,6 +192,9 @@
                     <td>
                         <a data-id="{{ $evo['id_evolution'] }} }}"  class="btn btn-xs btn-primary"id="update-evolution" ><span class='glyphicon glyphicon-edit'></span></a>
                     </td>
+                    <td>
+                        <a data-id="{{ $evo['id_evolution'] }} }}" class="btn btn-xs btn-danger btn-primary delete"><i class="glyphicon glyphicon-remove"></i>sup</a>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
@@ -415,6 +418,39 @@
                         swal("{{Lang::get('contenu.oops')}}", "{{Lang::get('contenu.problem_server')}}", "error");
                     });
 
+                });
+
+
+                //////////////////// Delete Evolution ///////////////////////////////////
+
+                $(document).on('click', '.delete', function () {
+                    var id = $(this).data('id');
+                    var swal_ot = {
+                        title: "{{ Lang::get('contenu.sure') }}",
+                        text: "{{ Lang::get('contenu.subtext_sure') }}",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: "{{ Lang::get('contenu.confirm_btn') }}",
+                        cancelButtonText: "{{ Lang::get('contenu.cancel_btn') }}",
+                        closeOnConfirm: false
+                    };
+                    var url = '{{ route("evolutions.delete", ":id") }}';
+                    url = url.replace(':id', id);
+
+                    swal(swal_ot, function () {
+                        $.ajax({
+                            url: url,
+                            type: 'POST',
+                            data: {_token: '{{ csrf_token() }}'},
+                        }).done(function () {
+                            swal("{{ Lang::get('contenu.supprime') }}", "{{ Lang::get('contenu.sub_sup') }}", "success");
+                            location.reload();
+                            ;
+
+                        }).error(function () {
+                            swal("{{ Lang::get('contenu.oops') }}", "{{ Lang::get('contenu.problem_server') }}", "error");
+                        });
+                    });
                 });
 
 

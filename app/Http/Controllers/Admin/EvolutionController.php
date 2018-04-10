@@ -44,7 +44,7 @@ class EvolutionController extends Controller
      */
     public function create()
     {
-        
+
     }
 
     /**
@@ -100,6 +100,21 @@ class EvolutionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return  response()->json($this->evolutionservice->delete($id));
+    }
+
+
+
+    /**
+     * Show the form for editing the specified resource.
+     *     
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+
+    public function delete(Request $request,$id)
+    {
+        return  response()->json($this->destroy($id));
     }
 }

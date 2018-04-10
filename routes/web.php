@@ -51,6 +51,7 @@ Route::resource('etudiants', 'Admin\EtudiantController');
 //gestion-evolution
 Route::get('evolutions/data', 'Admin\EvolutionController@data')->name('evolutions.data');
 Route::get('evolutions', 'Admin\EvolutionController@index')->name('evolutions.index');
+Route::post('evolutions/delete/{id}', 'Admin\EvolutionController@delete')->name('evolutions.delete');
 Route::resource('evolutions', 'Admin\EvolutionController');
 
 Route::get('etudiants/generate-pdf/{id}', 'Admin\PdfGenerateController@pdfview')->name('generate-pdf');
