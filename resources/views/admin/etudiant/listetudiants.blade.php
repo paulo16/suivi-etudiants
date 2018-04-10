@@ -44,6 +44,12 @@
                     {{ Lang::get('contenu.etudiant_prenom') }}
                 </th>
                 <th>
+                    {{ Lang::get('contenu.etudiant_date_naissance') }}
+                </th>
+                <th>
+                    Situation
+                </th>
+                <th>
                     {{ Lang::get('contenu.etudiant_genre') }}
                 </th>
                 <th>
@@ -57,12 +63,6 @@
                 </th>
                 <th>
                     {{ Lang::get('contenu.evolution_etablissement') }}
-                </th>
-                <th>
-                    Situation
-                </th>
-                <th>
-                    {{ Lang::get('contenu.etudiant_date_naissance') }}
                 </th>
                 <th>
                     {{ Lang::get('Télephone') }}
@@ -181,13 +181,13 @@
                     {data: 'numero', name: 'numero'},
                     {data: 'nom', name: 'nom'},
                     {data: 'prenom', name: 'prenom'},
+                    {data: 'naissance', name: 'naissance'},
+                    {data: 'situation', name: 'situation'},
                     {data: 'genre', name: 'genre'},
                     {data: 'promotion', name: 'promotion'},
                     {data: 'ville', name: 'ville'},
                     {data: 'filiere', name: 'filiere'},
                     {data: 'ecole', name: 'ecole'},
-                    {data: 'situation', name: 'situation'},
-                    {data: 'naissance', name: 'naissance'},
                     {data: 'tel', name: 'telephone'},
                     {data: 'email', name: 'email'},
                     {data: 'action', name: 'action'},

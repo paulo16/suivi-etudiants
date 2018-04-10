@@ -23,13 +23,14 @@ class EtudiantServiceImpl implements EtudiantService
         $etudiant ->email = $request->get('email')? $request->get('email') : '';
         $etudiant ->tel            = $request->get('tel')? $request->get('tel') : '';
         $etudiant ->date_naissance = $request->get('date_naissance')? $request->get('date_naissance') : '';
+        $etudiant ->lieu_naissance = $request->get('lieu_naissance')? $request->get('lieu_naissance') : '';
         $etudiant ->status = $request->get('status')? $request->get('status') : '';
         $etudiant ->promotion = $request->get('promotion')? $request->get('promotion') : '';
         $etudiant ->genre = $request->get('genre')? $request->get('genre') : '';
         $etudiant ->adresse = $request->get('adresse')? $request->get('adresse') : '';
 
         if( $etudiant->save()){
-            $evolution = new Evolution();
+            $evolution = Evolution::where('etudiant_id',$id)->orderBy('id','desc')->first();
 
             $evolution->situation =$request->get('promotion')? $request->get('promotion') : '';
             $evolution->niveau = $request->get('niveau')? $request->get('niveau') : '';
@@ -53,6 +54,7 @@ class EtudiantServiceImpl implements EtudiantService
         $etudiant ->email = $request->get('email')? $request->get('email') : '';
         $etudiant ->tel  = $request->get('tel')? $request->get('tel') : '';
         $etudiant ->date_naissance = $request->get('date_naissance')? $request->get('date_naissance') : '';
+        $etudiant ->lieu_naissance = $request->get('lieu_naissance')? $request->get('lieu_naissance') : '';
         $etudiant ->status = $request->get('status')? $request->get('status') : '';
         $etudiant ->promotion = $request->get('promotion')? $request->get('promotion') : '';
         $etudiant ->genre = $request->get('genre')? $request->get('genre') : '';
@@ -61,7 +63,7 @@ class EtudiantServiceImpl implements EtudiantService
         if( $etudiant->save()){
             $evolution = new Evolution();
 
-            $evolution->situation =$request->get('promotion')? $request->get('promotion') : '';
+            $evolution->situation =$request->get('status')? $request->get('status') : '';
             $evolution->niveau = $request->get('niveau')? $request->get('niveau') : '';
             $evolution->annee= $request->get('promotion')? $request->get('promotion') : '';
             $evolution->etablissement_id= $request->get('etablissements')? $request->get('etablissements') : '';
@@ -104,8 +106,10 @@ class EtudiantServiceImpl implements EtudiantService
         ->join('filieres', 'evolutions.filiere_id', '=', 'filieres.id')
         ->join('etablissements', 'evolutions.etablissement_id', '=', 'etablissements.id')
         ->select('etudiants.id as id', 'etudiants.nom as nom', 'etudiants.prenom as prenom',
-            'etudiants.tel as tel', 'etudiants.email as email',
-            'etudiants.date_naissance as naissance', 'etudiants.genre as genre', 'evolutions.annee as promotion', 'villes.nom as ville', 'filieres.nom as filiere', 'etablissements.nom as ecole', 'evolutions.situation as situation', 'evolutions.id as id_evolution')
+            'etudiants.tel as tel', 'etudiants.email as email','etudiants.adresse as adresse',
+            'etudiants.date_naissance as naissance', 'etudiants.genre as genre',
+            'etudiants.lieu_naissance as lieu_naissance', 'evolutions.annee as promotion','evolutions.niveau as niveau',
+             'villes.nom as ville', 'filieres.nom as filiere', 'etablissements.nom as ecole', 'evolutions.situation as situation', 'evolutions.id as id_evolution')
         ->whereColumn('evolutions.annee', '=', 'etudiants.promotion')
         ->where('evolutions.etudiant_id', '=', $id)
         ->first();

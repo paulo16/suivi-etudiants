@@ -20,6 +20,7 @@ class CreateEtudiantsTable extends Migration
             $table->string('email')->nullable();
             $table->string('tel')->nullable();
             $table->date('date_naissance')->nullable()->default(null);
+            $table->string('lieu_naissance')->nullable()->default(null);
             $table->string('status')->nullable();
             $table->string('promotion')->nullable();
             $table->string('genre')->nullable();

@@ -38,7 +38,7 @@
                         <i class="md-place">
                         </i>
                         <span>
-                            FACULTES
+                            ETABLISSEMENTS
                         </span>
                     </a>
                 </li>
