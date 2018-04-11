@@ -132,6 +132,7 @@ class EtudiantServiceImpl implements EtudiantService
             11 => 'email',
             12 => 'action',
             13 => 'numero',
+            14 => 'archiver'
         );
 
         $totalData = Etudiant::count();
@@ -155,7 +156,7 @@ class EtudiantServiceImpl implements EtudiantService
             ->select('etudiants.id as id', 'etudiants.nom as nom', 'etudiants.tel as tel', 'etudiants.prenom as prenom',
                 'etudiants.date_naissance as naissance', 'etudiants.genre as genre',
                 'etudiants.promotion as promotion', 'villes.nom as ville', 'villes.id as ville_id',
-                'filieres.nom as filiere', 'etudiants.email as email',
+                'filieres.nom as filiere', 'etudiants.email as email','etudiants.archive as archive',
                 'etablissements.nom as ecole', 'evo.situation as situation')
             ->offset($start)
             ->limit($limit)
@@ -173,7 +174,7 @@ class EtudiantServiceImpl implements EtudiantService
             ->select('etudiants.id as id', 'etudiants.nom as nom', 'etudiants.tel as tel', 'etudiants.prenom as prenom',
                 'etudiants.date_naissance as naissance', 'etudiants.genre as genre',
                 'etudiants.promotion as promotion', 'villes.nom as ville', 'villes.id as ville_id',
-                'filieres.nom as filiere', 'etudiants.email as email',
+                'filieres.nom as filiere', 'etudiants.email as email','etudiants.archive as archive',
                 'etablissements.nom as ecole', 'evo.situation as situation')
             ->where('etudiants.nom', 'LIKE', "%{$search}%")
             ->orWhere('etudiants.prenom', 'LIKE', "%{$search}%")
@@ -201,7 +202,7 @@ class EtudiantServiceImpl implements EtudiantService
             ->select('etudiants.id as id', 'etudiants.nom as nom', 'etudiants.tel as tel', 'etudiants.prenom as prenom',
                 'etudiants.date_naissance as naissance', 'etudiants.genre as genre',
                 'etudiants.promotion as promotion', 'villes.nom as ville', 'villes.id as ville_id',
-                'filieres.nom as filiere', 'etudiants.email as email',
+                'filieres.nom as filiere', 'etudiants.email as email','etudiants.archive as archive',
                 'etablissements.nom as ecole', 'evo.situation as situation')
             ->where('etudiants.nom', 'LIKE', "%{$search}%")
             ->orWhere('etudiants.prenom', 'LIKE', "%{$search}%")
@@ -225,11 +226,17 @@ class EtudiantServiceImpl implements EtudiantService
 
             $url='<a href=":url" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i>Editer</a>';
             $delete='<a data-id=":id" class="btn btn-xs btn-danger btn-primary delete"><i class="glyphicon glyphicon-remove"></i>sup</a>';
+            $archive='<a data-id=":id" class="btn btn-xs btn-primary archive"><i class="glyphicon glyphicon-off">
+            </i>&nbsp;:nom&nbsp;</a>';
 
             foreach ($etudiants as $etudiant) {
                 $show = route('etudiants.show', $etudiant->id);
                 $edit = route('etudiants.edit', $etudiant->id);
                 $del =str_replace(":id",$etudiant->id,$delete); 
+                //
+                $rep=$etudiant->archive ? " OUI " : " NON " ;
+                $arch =str_replace(":id",$etudiant->id,$archive); 
+                $arch =str_replace(":nom",$rep,$arch); 
 
                 $nestedData['numero']    = $numero ++ ;
                 $nestedData['genre']     = $etudiant->genre ? $etudiant->genre: '-';
@@ -243,6 +250,7 @@ class EtudiantServiceImpl implements EtudiantService
                 $nestedData['situation'] = $etudiant->situation ? $etudiant->situation : '-';
                 $nestedData['tel']       = $etudiant->tel ? $etudiant->tel:'-';
                 $nestedData['email']     = $etudiant->email ? $etudiant->email:'-';
+                $nestedData['archive']     = $arch;
                 $nestedData['action'] = '&nbsp;'.$del; 
                 /*$nestedData['options']   = "&emsp;<a href='{$show}' title='SHOW' ><span class='glyphicon glyphicon-list'></span></a>
                 &emsp;<a href='{$edit}' title='EDIT' ><span class='glyphicon glyphicon-edit'></span></a>";*/
@@ -285,6 +293,15 @@ class EtudiantServiceImpl implements EtudiantService
         ->orderBy('nom', 'asc')
         ->get()
         ->toArray();
+    }
+
+    public function archiver($id){
+
+        $etudiant= Etudiant::find($id);
+        $etudiant ->archive = !$etudiant ->archive;
+
+        return $etudiant->save() ;
+
     }
 
 }

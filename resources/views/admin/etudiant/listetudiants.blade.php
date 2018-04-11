@@ -22,60 +22,160 @@
             <h4 class="header-title m-t-0 m-b-30">
                 Liste des étudiants
             </h4>
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="m-b-30">
-                        <a id="add-un-etudiant" role="button" href="{{route('etudiants.create')}}" class="btn btn-primary waves-effect waves-light">
-                          AJOUTER UN ETUDIANT <i class="fa fa-plus"></i>
-                      </a>
-                  </div>
+            <p>
+                <a id="add-un-etudiant" role="button" href="{{route('etudiants.create')}}" class="btn btn-primary waves-effect waves-light">
+                  AJOUTER UN ETUDIANT <i class="fa fa-plus"></i>
+              </a>
+              <a class="btn btn-primary" data-toggle="collapse" href="#formfilterdiv" role="button" aria-expanded="false" aria-controls="formfilterdiv">
+                AFFICHER LE FORMULAIRE DES FILTRES
+            </a>
+        </p>
+        <hr>
+        <div id="formfilterdiv" name="formfilterdiv" class="row collapse">
+            <h3 class="header-title m-t-0 m-b-30"> FORMULAIRE DES FILTRES</h3>
+            <form action="{{route('etudiants.store')}}" method="post" data-parsley-validate novalidate>
+              {{ csrf_field() }}
+
+              <div class="col-md-3">
+                <div class="form-group{{ $errors->has('nom') ? ' has-error' : '' }}">
+                  <label for="nom">Nom*</label>
+                  <input type="text" name="nom" parsley-trigger="change" required placeholder="Entrer un nom" class="form-control" id="nom" value="">
               </div>
           </div>
-          <table cellspacing="0" class="table table-hover" id="etudiants-table" width="100%">
-            <thead>
-                <tr>
-                   <th>
-                    {{ Lang::get('N°') }}
-                </th>
-                <th>
-                    {{ Lang::get('contenu.etudiant_nom') }}
-                </th>
-                <th>
-                    {{ Lang::get('contenu.etudiant_prenom') }}
-                </th>
-                <th>
-                    {{ Lang::get('contenu.etudiant_date_naissance') }}
-                </th>
-                <th>
-                    Situation
-                </th>
-                <th>
-                    {{ Lang::get('contenu.etudiant_genre') }}
-                </th>
-                <th>
-                    {{ Lang::get('contenu.etudiant_promotion') }}
-                </th>
-                <th>
-                    {{ Lang::get('contenu.evolution_ville') }}
-                </th>
-                <th>
-                    {{ Lang::get('contenu.evolution_filiere') }}
-                </th>
-                <th>
-                    {{ Lang::get('contenu.evolution_etablissement') }}
-                </th>
-                <th>
-                    {{ Lang::get('Télephone') }}
-                </th>
-                <th>
-                    {{ Lang::get('Email') }}
-                </th>
-                <th>
-                    {{ Lang::get('action') }}
-                </th>
-            </tr>
-        </thead>
-    </table>
+          <div class="col-md-3">
+            <div class="form-group{{ $errors->has('prenom') ? ' has-error' : '' }}">
+              <label for="prenom">Prenom*</label>
+              <input type="text" name="prenom" parsley-trigger="change" required placeholder="Entrer un prenom" class="form-control" id="prenom" value="">
+          </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group col-lg-12">
+            <label for="filieres">Filieres*</label>
+            <select class="form-control" name="filieres" id="filieres">
+               @foreach ($filieres as $p)
+               <option value="{{$p['id']}}">
+                  {{$p['nom']}}
+              </option>
+              @endforeach
+          </select>
+      </div>
+  </div>
+
+  <div class="col-md-3">
+      <div class="form-group col-lg-12">
+        <label for="status">Status*</label>
+        <select name="status" id="status" required class="form-control">
+          <option disabled>-- Choisir un status --</option>
+          <option value="BOURSIER(MINESUP)">BOURSIER(MINESUP)</option>
+          <option value="BOURSIER(MINEFOP)">BOURSIER(MINEFOP)</option>
+          <option value="non boursier">STAGAIRE</option>
+          <option value="NON-BOURSIER">NON-BOURSIER</option>
+          <option value="AUTRES">AUTRES</option>
+      </select>
+  </div>
+</div>
+
+
+<div class="col-md-3">
+  <div class="form-group col-lg-12">
+   <label for="etablissements">Etablissements*</label>
+   <select class="form-control" name="etablissements" id="etablissements">
+     @foreach ($etablissements as $p)
+     <option value="{{$p['id']}}" >
+      {{$p['nom']}}
+  </option>
+  @endforeach
+</select>
+</div>
+</div>
+
+
+<div class="col-md-3">
+    <div class="form-group col-lg-12">
+      <label for="genre">Genre*</label>
+      <select name="genre" id="genre" required class="form-control">
+        <option disabled>-- Choisir un genre --</option>
+        <option value="M">M</option>
+        <option value="F">F</option>
+    </select>
+</div>
+</div>
+
+<div class="col-md-3">
+    <div class="form-group col-lg-12">
+      <label for="villes">Villes*</label>
+      <select class="form-control" name="villes" id="villes">
+       @foreach ($villes as $p)
+       <option value="{{$p['id']}}">
+        {{$p['nom']}}
+    </option>
+    @endforeach
+</select>
+</div>
+</div>
+<div class="col-md-3">
+    <div class="form-group col-lg-8">
+        <label for="lancer">Lancer le filtre</label>
+        <button class="btn btn-primary waves-effect waves-light" type="submit">
+            Lancer le filtre
+        </button>
+    </div>
+</div>
+
+</form>
+
+</div>
+
+<hr>
+
+<table cellspacing="0" class="table table-hover" id="etudiants-table" width="100%">
+    <thead>
+        <tr>
+         <th>
+            {{ Lang::get('N°') }}
+        </th>
+        <th>
+            {{ Lang::get('contenu.etudiant_nom') }}
+        </th>
+        <th>
+            {{ Lang::get('contenu.etudiant_prenom') }}
+        </th>
+        <th>
+            {{ Lang::get('contenu.etudiant_date_naissance') }}
+        </th>
+        <th>
+            Situation
+        </th>
+        <th>
+            {{ Lang::get('contenu.etudiant_genre') }}
+        </th>
+        <th>
+            {{ Lang::get('contenu.etudiant_promotion') }}
+        </th>
+        <th>
+            {{ Lang::get('contenu.evolution_ville') }}
+        </th>
+        <th>
+            {{ Lang::get('contenu.evolution_filiere') }}
+        </th>
+        <th>
+            {{ Lang::get('contenu.evolution_etablissement') }}
+        </th>
+        <th>
+            {{ Lang::get('Télephone') }}
+        </th>
+        <th>
+            {{ Lang::get('Email') }}
+        </th>
+        <th>
+            {{ Lang::get('Archiver') }}
+        </th>
+        <th>
+            {{ Lang::get('action') }}
+        </th>
+    </tr>
+</thead>
+</table>
 </div>
 </div>
 <!-- end col -->
@@ -197,6 +297,7 @@
                     {data: 'ecole', name: 'ecole'},
                     {data: 'tel', name: 'telephone'},
                     {data: 'email', name: 'email'},
+                    {data: 'archive', name: 'archive'},
                     {data: 'action', name: 'action'},
                     ],
 
@@ -234,6 +335,30 @@
                     });
                 });
             });
+
+
+            //////////////////// Archiver Etudiant ///////////////////////////////////
+
+            $(document).on('click', '.archive', function () {
+                var id = $(this).data('id');
+                var url = '{{ route("etudiants.archiver", ":id") }}';
+                url = url.replace(':id', id);
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: {_token: '{{ csrf_token() }}'},
+                }).done(function () {
+                        //swal("{{ Lang::get('contenu.supprime') }}", "{{ Lang::get('contenu.sub_sup') }}", "success");
+                        table.ajax.reload(null, false);
+                        ;
+
+                    }).error(function () {
+                        swal("{{ Lang::get('contenu.oops') }}", "{{ Lang::get('contenu.problem_server') }}", "error");
+                    });
+
+                });
+
 
 
         });

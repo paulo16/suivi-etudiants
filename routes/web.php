@@ -44,6 +44,7 @@ Route::get('etudiants/info/{id}', 'Admin\EtudiantController@findinfo')->name('et
 Route::get('etudiants/all', 'Admin\EtudiantController@all')->name('etudiants.all');
 Route::get('etudiants/les-etudiants', 'Admin\EtudiantController@listall')->name('etudiants.listall');
 Route::post('etudiants/delete/{id}', 'Admin\EtudiantController@delete')->name('etudiants.delete');
+Route::post('etudiants/archiver/{id}', 'Admin\EtudiantController@archiver')->name('etudiants.archiver');
 
 Route::get('etudiants/data', 'Admin\EtudiantController@data')->name('etudiants.data');
 Route::resource('etudiants', 'Admin\EtudiantController');

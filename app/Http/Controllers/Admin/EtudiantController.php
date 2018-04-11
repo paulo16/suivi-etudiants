@@ -167,7 +167,10 @@ class EtudiantController extends Controller
 
     public function listall()
     {
-        return view('admin.etudiant.listetudiants');
+        $villes = Ville::select()->orderBy('nom', 'asc') ->get() ->toArray();
+        $etablissements = Etablissement::select()->orderBy('nom', 'asc') ->get() ->toArray();
+        $filieres = Filiere::select()->orderBy('nom', 'asc') ->get() ->toArray();
+        return view('admin.etudiant.listetudiants',compact(['villes','etablissements','filieres']));
     }
 
     public function all(Request $request)
@@ -201,6 +204,11 @@ class EtudiantController extends Controller
         $villes = $this->etudiantservice->listevilles();
         $filieres = $this->filiereservice->list();
         return compact(['etablissements','villes','filieres']) ;
+    }
+
+    public function archiver($id)
+    {
+        return  response()->json($this->etudiantservice->archiver($id));
     }
 
 }

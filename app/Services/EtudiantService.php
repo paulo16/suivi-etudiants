@@ -10,22 +10,24 @@ use Illuminate\Http\Request;
 interface EtudiantService
 {
 
-    public function update(Request $request, $id);
+	public function update(Request $request, $id);
 
-    public function store(Request $request);
+	public function store(Request $request);
 
-    public function find($id);
+	public function find($id);
 
-    public function delete($id);
+	public function delete($id);
 
-    public function countEtudiant();
-    
-    public function infoEtudiant($id);
+	public function countEtudiant();
 
-    public function listetudiants(Request $request);
+	public function infoEtudiant($id);
 
-    public function evolutionEtudiant($id);
+	public function listetudiants(Request $request);
 
-    public function listevilles();
+	public function evolutionEtudiant($id);
+
+	public function listevilles();
+
+	public function archiver($id);
 
 }
