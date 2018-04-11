@@ -38,63 +38,74 @@
 
               <div class="col-md-3">
                 <div class="form-group{{ $errors->has('nom') ? ' has-error' : '' }}">
-                  <label for="nom">Nom*</label>
+                  <label for="nom">Nom</label>
                   <input type="text" name="nom" parsley-trigger="change" required placeholder="Entrer un nom" class="form-control" id="nom" value="">
               </div>
           </div>
           <div class="col-md-3">
             <div class="form-group{{ $errors->has('prenom') ? ' has-error' : '' }}">
-              <label for="prenom">Prenom*</label>
-              <input type="text" name="prenom" parsley-trigger="change" required placeholder="Entrer un prenom" class="form-control" id="prenom" value="">
+              <label for="prenom">Prenom</label>
+              <input type="text" name="prenom" placeholder="Entrer un prenom" class="form-control" id="prenom" value="">
           </div>
       </div>
+
       <div class="col-md-3">
-        <div class="form-group col-lg-12">
-            <label for="filieres">Filieres*</label>
-            <select class="form-control" name="filieres" id="filieres">
-               @foreach ($filieres as $p)
-               <option value="{{$p['id']}}">
-                  {{$p['nom']}}
-              </option>
-              @endforeach
-          </select>
+        <div class="form-group{{ $errors->has('promotion') ? ' has-error' : '' }}">
+          <label for="nom">promotion</label>
+          <input type="text" name="promotion" placeholder="promotion" class="form-control" id="promotion" value="">
       </div>
   </div>
-
   <div class="col-md-3">
-      <div class="form-group col-lg-12">
-        <label for="status">Status*</label>
-        <select name="status" id="status" required class="form-control">
-          <option disabled>-- Choisir un status --</option>
-          <option value="BOURSIER(MINESUP)">BOURSIER(MINESUP)</option>
-          <option value="BOURSIER(MINEFOP)">BOURSIER(MINEFOP)</option>
-          <option value="non boursier">STAGAIRE</option>
-          <option value="NON-BOURSIER">NON-BOURSIER</option>
-          <option value="AUTRES">AUTRES</option>
+    <div class="form-group col-lg-12">
+        <label for="filieres">Filieres</label>
+        <select class="form-control" name="filieres" id="filieres">
+            <option value=""> </option>
+            @foreach ($filieres as $p)
+            <option value="{{$p['id']}}">
+              {{$p['nom']}}
+          </option>
+          @endforeach
       </select>
   </div>
+</div>
+
+<div class="col-md-3">
+  <div class="form-group col-lg-12">
+    <label for="status">Status</label>
+    <select name="status" id="status" required class="form-control">
+      <option disabled>-- Choisir un status --</option>
+      <option value=""> </option>
+      <option value="BOURSIER(MINESUP)">BOURSIER(MINESUP)</option>
+      <option value="BOURSIER(MINEFOP)">BOURSIER(MINEFOP)</option>
+      <option value="non boursier">STAGAIRE</option>
+      <option value="NON-BOURSIER">NON-BOURSIER</option>
+      <option value="AUTRES">AUTRES</option>
+  </select>
+</div>
 </div>
 
 
 <div class="col-md-3">
   <div class="form-group col-lg-12">
-   <label for="etablissements">Etablissements*</label>
-   <select class="form-control" name="etablissements" id="etablissements">
-     @foreach ($etablissements as $p)
-     <option value="{{$p['id']}}" >
-      {{$p['nom']}}
-  </option>
-  @endforeach
-</select>
+     <label for="etablissements">Etablissements</label>
+     <select class="form-control" name="etablissements" id="etablissements">
+        <option value=""> </option>
+        @foreach ($etablissements as $p)
+        <option value="{{$p['id']}}" >
+          {{$p['nom']}}
+      </option>
+      @endforeach
+  </select>
 </div>
 </div>
 
 
 <div class="col-md-3">
     <div class="form-group col-lg-12">
-      <label for="genre">Genre*</label>
+      <label for="genre">Genre</label>
       <select name="genre" id="genre" required class="form-control">
         <option disabled>-- Choisir un genre --</option>
+        <option value=""> </option>
         <option value="M">M</option>
         <option value="F">F</option>
     </select>
@@ -103,23 +114,35 @@
 
 <div class="col-md-3">
     <div class="form-group col-lg-12">
-      <label for="villes">Villes*</label>
+      <label for="villes">Villes</label>
       <select class="form-control" name="villes" id="villes">
-       @foreach ($villes as $p)
-       <option value="{{$p['id']}}">
-        {{$p['nom']}}
-    </option>
-    @endforeach
-</select>
+        <option value=""> </option>
+        @foreach ($villes as $p)
+        <option value="{{$p['id']}}">
+            {{$p['nom']}}
+        </option>
+        @endforeach
+    </select>
 </div>
 </div>
+
 <div class="col-md-3">
-    <div class="form-group col-lg-8">
-        <label for="lancer">Lancer le filtre</label>
-        <button class="btn btn-primary waves-effect waves-light" type="submit">
-            Lancer le filtre
-        </button>
-    </div>
+    <div class="form-group col-lg-12">
+      <label for="archiver">Archiver</label>
+      <select class="form-control" name="archiver" id="archiver">
+         <option value=""> </option>
+         <option value="true"> Etudiants Archivés</option>
+         <option value="false"> Etudiants Actifs</option>
+     </select>
+ </div>
+</div>
+<div class="col-md-3 ">
+    <div class="form-group col-lg-12">
+        <label for="lancer">Lancer le filtre en cliquant ici svp </label>
+        <button id="btnfiltre" class="btn btn-primary waves-effect waves-light" type="submit">
+         Filtre sur les étudiants 
+     </button>
+ </div>
 </div>
 
 </form>
@@ -131,7 +154,7 @@
 <table cellspacing="0" class="table table-hover" id="etudiants-table" width="100%">
     <thead>
         <tr>
-         <th>
+           <th>
             {{ Lang::get('N°') }}
         </th>
         <th>
@@ -212,6 +235,11 @@
 </script>
 <script>
     $(document).ready(function () {
+
+      call_dataTable({});
+
+      function call_dataTable(filters){
+
         var table = $('#etudiants-table')
         .DataTable({
             "oLanguage": {
@@ -247,8 +275,14 @@
             iDisplayLength: -1,
             "scrollX": true,
             "scrollY": "400px",
-            ajax: '{!! route('etudiants.all') !!}',
-            data: {_token: '{{ csrf_token() }}'},
+            ajax: {
+                url:'{!! route('etudiants.all') !!}',
+                type:'GET',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    filtre:filters
+                },
+            },
                     //"scrollX": true,
                     //"sScrollXInner": "110%",
                     dom: '<"top"B><fl><"bottom"rtip><"clear">',
@@ -302,6 +336,8 @@
                     ],
 
                 });
+}
+
 
 
             //////////////////// Delete Etudiant ///////////////////////////////////
@@ -358,6 +394,32 @@
                     });
 
                 });
+
+
+
+            //////////////////// Clique sur lancer filtre ///////////////////////////////////
+
+            $("#btnfiltre").click(function (e) {
+                e.preventDefault();
+                var formData = {
+                    nom: $('#nom').val(),
+                    prenom: $('#prenom').val(),
+                    filiere: $('#filieres').val(),
+                    ville: $('#villes').val(),
+                    status: $('#status').val(),
+                    etablissement: $('#etablissements').val(),
+                    genre: $('#genre').val(),
+                    archiver: $('#archiver').val(),
+                    promotion: $('#promotion').val(),
+                };
+
+                //console.log("nom:"+$('#nom').val());
+
+                $('#etudiants-table').DataTable().destroy();
+                call_dataTable(formData);
+
+            });
+
 
 
 

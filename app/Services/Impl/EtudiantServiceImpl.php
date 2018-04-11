@@ -138,13 +138,16 @@ class EtudiantServiceImpl implements EtudiantService
         $totalData = Etudiant::count();
 
         $totalFiltered = $totalData;
+        
 
         $limit = $request->input('length');
         $start = $request->input('start');
         $order = $columns[$request->input('order.0.column')];
         $dir   = $request->input('order.0.dir');
 
-        if (empty($request->input('search.value'))) {
+        Debugbar::info($request->get('filtre'));
+        if (empty($request->input('search.value')) && empty($request->input('filtre'))) {
+            Debugbar::info('depart');
 
             $etudiants =\DB::table('etudiants')
             ->leftJoin(\DB::raw('(SELECT * FROM evolutions A WHERE id = (SELECT MAX(id) FROM evolutions B WHERE A.etudiant_id=B.etudiant_id)) AS evo'), function($join) {
@@ -162,7 +165,64 @@ class EtudiantServiceImpl implements EtudiantService
             ->limit($limit)
             ->orderBy($order, $dir)
             ->get();
-        } else {
+
+        } elseif ( empty($request->input('search.value')) && $request->input('filtre')) {
+            $filtre=[];
+
+            foreach ($request->get('filtre') as $key => $value) {
+                if($value && $key=="nom") $filtre['etudiants.nom']=$value ;
+                if($value && $key=="prenom") $filtre['etudiants.prenom']=$value ;
+                if($value && $key=="status") $filtre['evo.situation']=$value ;
+                if($value && $key=="archiver"){
+                   
+                    $filtre['etudiants.archive']= ($value == "true") ? true : false ;
+                }
+                if($value && $key=="genre") $filtre['etudiants.genre']=$value ;
+                if($value && $key=="promotion") $filtre['etudiants.promotion']=$value ;
+                if($value && $key=="ville") $filtre['evo.ville_id']=$value ;
+                if($value && $key=="etablissement") $filtre['evo.etablissement_id']=$value ;
+                if($value && $key=="filiere") $filtre['evo.filiere_id']=$value ;
+            }
+
+
+            $etudiants =\DB::table('etudiants')
+            ->leftJoin(\DB::raw('(SELECT * FROM evolutions A WHERE id = (SELECT MAX(id) FROM evolutions B WHERE A.etudiant_id=B.etudiant_id)) AS evo'), function($join) {
+                $join->on('etudiants.id', '=', 'evo.etudiant_id');
+            })
+            ->join('villes', 'evo.ville_id', '=', 'villes.id')
+            ->join('filieres', 'evo.filiere_id', '=', 'filieres.id')
+            ->join('etablissements', 'evo.etablissement_id', '=', 'etablissements.id')
+            ->select('etudiants.id as id', 'etudiants.nom as nom', 'etudiants.tel as tel', 'etudiants.prenom as prenom',
+                'etudiants.date_naissance as naissance', 'etudiants.genre as genre',
+                'etudiants.promotion as promotion', 'villes.nom as ville', 'villes.id as ville_id',
+                'filieres.nom as filiere', 'etudiants.email as email','etudiants.archive as archive',
+                'etablissements.nom as ecole', 'evo.situation as situation')
+            ->where($filtre)
+            ->offset($start)
+            ->limit($limit)
+            ->orderBy($order, $dir)
+            ->get();
+
+            $totalFiltered = \DB::table('etudiants')
+            ->leftJoin(\DB::raw('(SELECT * FROM evolutions A WHERE id = (SELECT MAX(id) FROM evolutions B WHERE A.etudiant_id=B.etudiant_id)) AS evo'), function($join) {
+                $join->on('etudiants.id', '=', 'evo.etudiant_id');
+            })
+            ->join('villes', 'evo.ville_id', '=', 'villes.id')
+            ->join('filieres', 'evo.filiere_id', '=', 'filieres.id')
+            ->join('etablissements', 'evo.etablissement_id', '=', 'etablissements.id')
+            ->select('etudiants.id as id', 'etudiants.nom as nom', 'etudiants.tel as tel', 'etudiants.prenom as prenom',
+                'etudiants.date_naissance as naissance', 'etudiants.genre as genre',
+                'etudiants.promotion as promotion', 'villes.nom as ville', 'villes.id as ville_id',
+                'filieres.nom as filiere', 'etudiants.email as email','etudiants.archive as archive',
+                'etablissements.nom as ecole', 'evo.situation as situation')
+            ->where($filtre)
+            ->count();
+
+            Debugbar::info($totalFiltered);
+
+
+        }else {
+            Debugbar::info('filtre natif');
             $search = $request->input('search.value');
             $etudiants =\DB::table('etudiants')
             ->leftJoin(\DB::raw('(SELECT * FROM evolutions A WHERE id = (SELECT MAX(id) FROM evolutions B WHERE A.etudiant_id=B.etudiant_id)) AS evo'), function($join) {
