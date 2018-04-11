@@ -386,7 +386,7 @@
                     data: {_token: '{{ csrf_token() }}'},
                 }).done(function () {
                         //swal("{{ Lang::get('contenu.supprime') }}", "{{ Lang::get('contenu.sub_sup') }}", "success");
-                        table.ajax.reload(null, false);
+                        $('#etudiants-table').DataTable().ajax.reload(null, false);
                         ;
 
                     }).error(function () {
