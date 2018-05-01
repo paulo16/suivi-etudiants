@@ -77,8 +77,8 @@
       <option value=""> </option>
       <option value="BOURSIER(MINESUP)">BOURSIER(MINESUP)</option>
       <option value="BOURSIER(MINEFOP)">BOURSIER(MINEFOP)</option>
-      <option value="non boursier">STAGAIRE</option>
-      <option value="NON-BOURSIER">NON-BOURSIER</option>
+      <option value="STAGAIRE">STAGAIRE</option>
+      <option value="PRIVEE">NON-BOURSIER</option>
       <option value="AUTRES">AUTRES</option>
   </select>
 </div>
@@ -185,10 +185,10 @@
             {{ Lang::get('contenu.evolution_etablissement') }}
         </th>
         <th>
-            {{ Lang::get('Télephone') }}
+            {{ Lang::get('Niveau') }}
         </th>
         <th>
-            {{ Lang::get('Email') }}
+            {{ Lang::get('Tel') }}
         </th>
         <th>
             {{ Lang::get('Archiver') }}
@@ -264,13 +264,13 @@
                     "sSortDescending": "{{ Lang::get('datatable.sSortDescending') }}"
                 }
             },
-            order: [[ 0, "desc" ]],
+            order: [[ 1, "asc" ]],
             processing: true,
             serverSide: true,
             pageLength: 10,
             lengthMenu: [
-            [10, 30, 50, 200],
-            [10, 30, 50, 200]
+            [10, 30, 50, -1],
+            [10, 30, 50, "tous"]
             ],
             iDisplayLength: -1,
             "scrollX": true,
@@ -329,8 +329,8 @@
                     {data: 'ville', name: 'ville'},
                     {data: 'filiere', name: 'filiere'},
                     {data: 'ecole', name: 'ecole'},
-                    {data: 'tel', name: 'telephone'},
-                    {data: 'email', name: 'email'},
+                    {data: 'niveau', name: 'niveau'},
+                    {data: 'tel', name: 'tel'},
                     {data: 'archive', name: 'archive'},
                     {data: 'action', name: 'action'},
                     ],
@@ -363,7 +363,7 @@
                         data: {_token: '{{ csrf_token() }}'},
                     }).done(function () {
                         swal("{{ Lang::get('contenu.supprime') }}", "{{ Lang::get('contenu.sub_sup') }}", "success");
-                        table.ajax.reload(null, false);
+                        $('#etudiants-table').DataTable().ajax.reload(null, false);
                         ;
 
                     }).error(function () {

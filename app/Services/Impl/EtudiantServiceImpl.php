@@ -119,17 +119,17 @@ class EtudiantServiceImpl implements EtudiantService
     {
         $columns = array(
             0  => 'id',
-            1  => 'genre',
+            1  => 'nom',
             2  => 'promotion',
             3  => 'ville',
             4  => 'filiere',
             5  => 'ecole',
-            6  => 'nom',
+            6  => 'genre',
             7  => 'prenom',
             8  => 'situation',
             9  => 'naissance',
-            10  => 'tel',
-            11 => 'email',
+            10 => 'niveau',
+            11 => 'tel',
             12 => 'action',
             13 => 'numero',
             14 => 'archiver'
@@ -139,13 +139,13 @@ class EtudiantServiceImpl implements EtudiantService
 
         $totalFiltered = $totalData;
         
-
-        $limit = $request->input('length');
+        //Debugbar::info('length :'.$request->input('length'));
+        $limit = $request->input('length')!=-1 ?$request->input('length') :$totalData ;
         $start = $request->input('start');
         $order = $columns[$request->input('order.0.column')];
         $dir   = $request->input('order.0.dir');
 
-        Debugbar::info($request->get('filtre'));
+        //Debugbar::info($request->get('filtre'));
         if (empty($request->input('search.value')) && empty($request->input('filtre'))) {
             Debugbar::info('depart');
 
@@ -159,7 +159,7 @@ class EtudiantServiceImpl implements EtudiantService
             ->select('etudiants.id as id', 'etudiants.nom as nom', 'etudiants.tel as tel', 'etudiants.prenom as prenom',
                 'etudiants.date_naissance as naissance', 'etudiants.genre as genre',
                 'etudiants.promotion as promotion', 'villes.nom as ville', 'villes.id as ville_id',
-                'filieres.nom as filiere', 'etudiants.email as email','etudiants.archive as archive',
+                'filieres.nom as filiere','evo.niveau as niveau','etudiants.archive as archive',
                 'etablissements.nom as ecole', 'evo.situation as situation')
             ->offset($start)
             ->limit($limit)
@@ -174,7 +174,7 @@ class EtudiantServiceImpl implements EtudiantService
                 if($value && $key=="prenom") $filtre['etudiants.prenom']=$value ;
                 if($value && $key=="status") $filtre['evo.situation']=$value ;
                 if($value && $key=="archiver"){
-                   
+
                     $filtre['etudiants.archive']= ($value == "true") ? true : false ;
                 }
                 if($value && $key=="genre") $filtre['etudiants.genre']=$value ;
@@ -195,7 +195,7 @@ class EtudiantServiceImpl implements EtudiantService
             ->select('etudiants.id as id', 'etudiants.nom as nom', 'etudiants.tel as tel', 'etudiants.prenom as prenom',
                 'etudiants.date_naissance as naissance', 'etudiants.genre as genre',
                 'etudiants.promotion as promotion', 'villes.nom as ville', 'villes.id as ville_id',
-                'filieres.nom as filiere', 'etudiants.email as email','etudiants.archive as archive',
+                'filieres.nom as filiere', 'evo.niveau as niveau','etudiants.archive as archive',
                 'etablissements.nom as ecole', 'evo.situation as situation')
             ->where($filtre)
             ->offset($start)
@@ -213,7 +213,7 @@ class EtudiantServiceImpl implements EtudiantService
             ->select('etudiants.id as id', 'etudiants.nom as nom', 'etudiants.tel as tel', 'etudiants.prenom as prenom',
                 'etudiants.date_naissance as naissance', 'etudiants.genre as genre',
                 'etudiants.promotion as promotion', 'villes.nom as ville', 'villes.id as ville_id',
-                'filieres.nom as filiere', 'etudiants.email as email','etudiants.archive as archive',
+                'filieres.nom as filiere', 'evo.niveau as niveau','etudiants.archive as archive',
                 'etablissements.nom as ecole', 'evo.situation as situation')
             ->where($filtre)
             ->count();
@@ -234,7 +234,7 @@ class EtudiantServiceImpl implements EtudiantService
             ->select('etudiants.id as id', 'etudiants.nom as nom', 'etudiants.tel as tel', 'etudiants.prenom as prenom',
                 'etudiants.date_naissance as naissance', 'etudiants.genre as genre',
                 'etudiants.promotion as promotion', 'villes.nom as ville', 'villes.id as ville_id',
-                'filieres.nom as filiere', 'etudiants.email as email','etudiants.archive as archive',
+                'filieres.nom as filiere', 'evo.niveau as niveau','etudiants.archive as archive',
                 'etablissements.nom as ecole', 'evo.situation as situation')
             ->where('etudiants.nom', 'LIKE', "%{$search}%")
             ->orWhere('etudiants.prenom', 'LIKE', "%{$search}%")
@@ -245,7 +245,7 @@ class EtudiantServiceImpl implements EtudiantService
             ->orWhere('filieres.nom', 'LIKE', "%{$search}%")
             ->orWhere('etablissements.nom', 'LIKE', "%{$search}%")
             ->orWhere('etudiants.tel', 'LIKE', "%{$search}%")
-            ->orWhere('etudiants.email', 'LIKE', "%{$search}%")
+            ->orWhere('etudiants.niveau', 'LIKE', "%{$search}%")
             ->orWhere('evo.situation', 'LIKE', "%{$search}%")
             ->offset($start)
             ->limit($limit)
@@ -262,7 +262,7 @@ class EtudiantServiceImpl implements EtudiantService
             ->select('etudiants.id as id', 'etudiants.nom as nom', 'etudiants.tel as tel', 'etudiants.prenom as prenom',
                 'etudiants.date_naissance as naissance', 'etudiants.genre as genre',
                 'etudiants.promotion as promotion', 'villes.nom as ville', 'villes.id as ville_id',
-                'filieres.nom as filiere', 'etudiants.email as email','etudiants.archive as archive',
+                'filieres.nom as filiere', 'evo.niveau as niveau','etudiants.archive as archive',
                 'etablissements.nom as ecole', 'evo.situation as situation')
             ->where('etudiants.nom', 'LIKE', "%{$search}%")
             ->orWhere('etudiants.prenom', 'LIKE', "%{$search}%")
@@ -274,7 +274,7 @@ class EtudiantServiceImpl implements EtudiantService
             ->orWhere('etablissements.nom', 'LIKE', "%{$search}%")
             ->orWhere('etudiants.tel', 'LIKE', "%{$search}%")
             ->orWhere('evo.situation', 'LIKE', "%{$search}%")
-            ->orWhere('etudiants.email', 'LIKE', "%{$search}%")
+            ->orWhere('etudiants.niveau', 'LIKE', "%{$search}%")
             ->count();
         }
 
@@ -309,7 +309,7 @@ class EtudiantServiceImpl implements EtudiantService
                 $nestedData['naissance'] = "<a href='{$show}' title='SHOW' >" . $etudiant->naissance . "</a>";
                 $nestedData['situation'] = $etudiant->situation ? $etudiant->situation : '-';
                 $nestedData['tel']       = $etudiant->tel ? $etudiant->tel:'-';
-                $nestedData['email']     = $etudiant->email ? $etudiant->email:'-';
+                $nestedData['niveau']     = $etudiant->niveau ? $etudiant->niveau:'-';
                 $nestedData['archive']     = $arch;
                 $nestedData['action'] = '&nbsp;'.$del; 
                 /*$nestedData['options']   = "&emsp;<a href='{$show}' title='SHOW' ><span class='glyphicon glyphicon-list'></span></a>

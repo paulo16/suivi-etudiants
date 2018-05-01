@@ -14,7 +14,7 @@
                 <ul class="nav navbar-nav navbar-right pull-right">
 
                     <li class="">
-                        <a>Application de Suivi des Etudiants Cameounais au Maroc</a>
+                        <a>Application de Suivi des Etudiants Camerounais au Maroc</a>
                     </li>
                     <li class="hidden-xs">
                         <a href="#" class="right-bar-toggle waves-effect waves-light"><i class="icon-settings"></i></a>
