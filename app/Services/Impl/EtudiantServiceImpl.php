@@ -245,7 +245,7 @@ class EtudiantServiceImpl implements EtudiantService
             ->orWhere('filieres.nom', 'LIKE', "%{$search}%")
             ->orWhere('etablissements.nom', 'LIKE', "%{$search}%")
             ->orWhere('etudiants.tel', 'LIKE', "%{$search}%")
-            ->orWhere('etudiants.niveau', 'LIKE', "%{$search}%")
+            ->orWhere('evo.niveau', 'LIKE', "%{$search}%")
             ->orWhere('evo.situation', 'LIKE', "%{$search}%")
             ->offset($start)
             ->limit($limit)
@@ -274,7 +274,7 @@ class EtudiantServiceImpl implements EtudiantService
             ->orWhere('etablissements.nom', 'LIKE', "%{$search}%")
             ->orWhere('etudiants.tel', 'LIKE', "%{$search}%")
             ->orWhere('evo.situation', 'LIKE', "%{$search}%")
-            ->orWhere('etudiants.niveau', 'LIKE', "%{$search}%")
+            ->orWhere('evo.niveau', 'LIKE', "%{$search}%")
             ->count();
         }
 
